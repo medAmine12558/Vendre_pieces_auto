@@ -2,5 +2,6 @@
 {
     public class Controleur : Client
     {
+        public int a;
     }
 }
