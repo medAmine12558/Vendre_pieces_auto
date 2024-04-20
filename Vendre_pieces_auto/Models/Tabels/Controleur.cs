@@ -3,5 +3,6 @@
     public class Controleur : Client
     {
         public int a;
+        public int b;
     }
 }
