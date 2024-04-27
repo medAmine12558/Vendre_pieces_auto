@@ -1,0 +1,129 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/InterfaceUser.css">
+    <title>Document</title>
+    <style>
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: block;
+        }
+
+        .navbar img {
+                float: left;
+                width: 50px;
+                height: auto;
+                margin-right: 10px;
+        }
+
+        .navbar a {
+                float: left;
+                display: block;
+                color: #f2f2f2;
+                text-align: center;
+                padding: 14px 20px;
+                text-decoration: none;
+        }
+
+         .navbar a:hover {
+                    background-color: #0400ff;
+                    color: black;
+         }
+
+        .navbar input{
+            float:right;
+            display:inline-block;
+            padding: 10px 20px;
+            background-color: #555;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;/* Curseur au survol */
+            margin-right : 6px;
+        }
+
+        .navbar input:hover {
+            background-color: #0400ff;
+            
+        }
+        </style>
+</head>
+
+<body class="body">
+    <div  class="navbar">
+        <img src="~/Images/Logo.png" alt="logo">
+        <a href="">Home</a>
+        <a  href="">Services</a>
+        <a  href="">Contact US</a>
+        <form asp-controller="Autho" asp-action="Login" method="post">
+            <input type="submit" value="Login or Signup">
+            </form>
+            
+        
+        </div>
+        
+    <span onclick="openNav()"><img class="profile" src="~/Images/Logo.png" alt="profile"></span>
+
+    <div class="pieces">
+        <span class="categorie" onclick="afficherpop()"><p>toutes les categories -></p></span>
+        <div class="popbackground">
+            <div class="pop">
+                <a href="">Moteur</a>
+                <a href="">Échappement</a>
+                <a href="">Train roulant</a>
+                <a href="">Éclairage</a>
+                <a href="">Climatisation</a>
+                <a href="">Chauffage/ventilation</a>
+                <a href="">Freinage</a>
+                <a href="">Direction</a>
+                <a href="">Carrosserie</a>
+            </div>
+        </div>
+        <div class="piece">
+            <img class="profile" src="~/Images/Logo.png" alt="profile">
+            <p>Porte</p>
+            <input type="submit" value="Buy Now">
+            <input type="submit" value="More details">
+        </div>
+        <div class="piece">
+            <img class="profile" src="~/Images/Logo.png" alt="profile">
+            <p>Porte</p>
+            <input type="submit" value="Buy Now">
+            <input type="submit" value="More details">
+        </div>
+        <div class="piece">
+            <img class="profile" src="~/Images/Logo.png" alt="profile">
+            <p>Rouleurs</p>
+            <input type="submit" value="Buy Now">
+            <input type="submit" value="More details">
+        </div>
+        <div class="piece">
+            <img class="profile" src="~/Images/Logo.png" alt="profile">
+            <p>Boite a vitesse</p>
+            <input type="submit" value="Buy Now" value="More details">
+            <input type="submit" value="More details">
+        </div>
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <a href="#">Profile</a>
+            <a href="#">Pagne</a>
+            <a href="#">Historique d'achats</a>
+            <a href="#">Messages</a>
+            <a href="">Favorie</a>
+        </div>
+
+        <script src="~/js/InterfaceUser.js"></script>
+</body>
+</html>
