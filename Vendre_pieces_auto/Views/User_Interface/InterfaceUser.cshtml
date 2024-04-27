@@ -67,15 +67,28 @@
         <a href="">Home</a>
         <a  href="">Services</a>
         <a  href="">Contact US</a>
-        <form asp-controller="Autho" asp-action="Login" method="post">
-            <input type="submit" value="Login or Signup">
+        @{
+            if (!User.Identity.IsAuthenticated)
+        {
+            <form asp-controller="Autho" asp-action="Login" method="post">
+                <input type="submit" value="Login or Signup">
             </form>
-            
+        }
+        else
+        {
+            <form asp-controller="Autho" asp-action="Logout" method="post">
+                <input type="submit" value="Logout">
+            </form>
+        }
+        }
+
         
         </div>
-        
-    <span onclick="openNav()"><img class="profile" src="~/Images/Logo.png" alt="profile"></span>
+    @if (User.Identity.IsAuthenticated)
+    {
+            <span onclick="openNav()"><img class="profile" src="~/Images/Logo.png" alt="profile"></span>
 
+    }
     <div class="pieces">
         <span class="categorie" onclick="afficherpop()"><p>toutes les categories -></p></span>
         <div class="popbackground">
@@ -122,6 +135,7 @@
             <a href="#">Historique d'achats</a>
             <a href="#">Messages</a>
             <a href="">Favorie</a>
+            <a asp-controller="Autho" asp-action="Logout" >Logout</a>
         </div>
 
         <script src="~/js/InterfaceUser.js"></script>
