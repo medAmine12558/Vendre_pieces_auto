@@ -19,7 +19,7 @@
 
     }
     <span class="categorie" onclick="afficherpop()"><p>toutes les categories -></p></span>
-    <a class="ajouter_piece" href=""> + Ajoutez une piece</a>
+    <a class="ajouter_piece" href="/Piece/Ajouter"> + Ajoutez une piece</a>
     <div class="pieces">
         
         <div class="popbackground">
@@ -38,8 +38,11 @@
         <div class="piece">
             <img class="profile" src="~/Images/Logo.png" alt="profile">
             <p>Porte</p>
-            <input type="submit" value="Buy Now">
-            <input type="submit" value="More details">
+            <form asp-controller="Piece" asp-action="Detaille" method="post">
+                <input type="submit" value="Buy Now">
+                <input type="submit" value="More details">
+            </form>
+           
         </div>
         <div class="piece">
             <img class="profile" src="~/Images/Logo.png" alt="profile">
