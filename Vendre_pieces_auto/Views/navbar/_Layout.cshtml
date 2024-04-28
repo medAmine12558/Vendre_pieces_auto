@@ -1,0 +1,27 @@
+﻿@{
+    //on va cree un layout personaliser similaire a layout qui se touve dans Views/Shared/_Layout.cshtml qui contient une navbar par defaut contruisait par .net pour la remplacer dans mes templates (pages ".cshtml" ou les vues)
+    //maintenant j'ai la possibilite d'ajouter la navbar cree par nous meme dans n'importe quelle page souhaiter  
+    //on peut faire ca par on ajoutons dans le haut de chaque page .cshtml precisement dans @{ <ici> }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Metadonnées, styles, etc. -->
+</head>
+<body>
+    <header>
+        @Html.Partial("~/Views/navbar/Navbar.cshtml")<!--Ici on a apporte le navbar qu'on est cree pour but de remplacer le navbar pardefaut de .net-->
+    </header>
+
+    <main role="main">
+        @RenderBody()<!--Ici on va apporter la page HTML qu'on va ajouter dans elle la navbar cree par nous meme-->
+    </main>
+
+    <footer>
+        <!-- Pied de page -->
+    </footer>
+
+    <!-- Scripts, etc. -->
+</body>
+</html>
+

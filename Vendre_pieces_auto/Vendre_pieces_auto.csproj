@@ -8,10 +8,12 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\css\InterfaceUser.css" />
+    <Content Remove="wwwroot\css\navbar.css" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\css\InterfaceUser.css" />
+    <None Include="wwwroot\css\navbar.css" />
     <None Include="wwwroot\Images\Logo.png" />
     <None Include="wwwroot\js\InterfaceUser.js" />
   </ItemGroup>

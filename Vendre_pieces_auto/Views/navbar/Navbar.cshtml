@@ -2,6 +2,7 @@
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    Layout = null;
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -9,14 +10,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="Style.css">
+    <link rel="stylesheet" href="~/css/navbar.css">
+   
 </head>
 <body>
     <div class="navbar">
-        <img src="Logo.png" alt="logo">
+        <img src="~/Images/Logo.png" alt="logo">
         <a href="">Home</a>
         <a href="">Services</a>
         <a href="">Contact US</a>
+        
+            @if (!User.Identity.IsAuthenticated)//si l'utlisateur n'est pas connecte on va l'afficher un bouton pour se connecter
+            {
+            <form asp-controller="Autho" asp-action="Login" method="post">
+                    <input type="submit" value="Login or Signup">
+                </form>
+            }
+            else// si non on va l'afficher un bouton pour se deconnecter
+            {
+                <form asp-controller="Autho" asp-action="Logout" method="post">
+                    <input type="submit" value="Logout">
+                </form>
+            }
     </div>
+    
 </body>
 </html>

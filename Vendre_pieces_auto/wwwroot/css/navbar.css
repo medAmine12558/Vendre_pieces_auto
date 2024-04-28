@@ -24,8 +24,24 @@ body{
   padding: 14px 20px;
   text-decoration: none;/* Supprime le soulignement des liens */
 }
-.navbar a:hover{
-  background-color: #0400ff;
-  color: black;
+.navbar input {
+   float: right;
+   margin-top: 3px;
+   display: inline-block;
+   padding: 10px 20px;
+   background-color: #555;
+   color: white;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer; /* Curseur au survol */
+   margin-right: 6px;
 }
+    .navbar input:hover {
+       
+         background-color: #0400ff;
+    }
+    .navbar a:hover {
+        background-color: #0400ff;
+    }
+
 

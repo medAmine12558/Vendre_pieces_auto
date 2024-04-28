@@ -1,8 +1,5 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-    Layout = null;
+﻿@{
+    Layout = "~/Views/navbar/_Layout.cshtml"; //utiliser la navbar qui se trouve dans "Views/navbar/Navbar.cshtml a travers _Layout.cshtml
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -11,86 +8,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/css/InterfaceUser.css">
     <title>Document</title>
-    <style>
-        .navbar {
-            overflow: hidden;
-            background-color: #333;
-            position: fixed;
-            top: 0;
-            width: 100%;
-            display: block;
-        }
-
-        .navbar img {
-                float: left;
-                width: 50px;
-                height: auto;
-                margin-right: 10px;
-        }
-
-        .navbar a {
-                float: left;
-                display: block;
-                color: #f2f2f2;
-                text-align: center;
-                padding: 14px 20px;
-                text-decoration: none;
-        }
-
-         .navbar a:hover {
-                    background-color: #0400ff;
-                    color: black;
-         }
-
-        .navbar input{
-            float:right;
-            display:inline-block;
-            padding: 10px 20px;
-            background-color: #555;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;/* Curseur au survol */
-            margin-right : 6px;
-        }
-
-        .navbar input:hover {
-            background-color: #0400ff;
-            
-        }
-        </style>
 </head>
 
 <body class="body">
-    <div  class="navbar">
-        <img src="~/Images/Logo.png" alt="logo">
-        <a href="">Home</a>
-        <a  href="">Services</a>
-        <a  href="">Contact US</a>
-        @{
-            if (!User.Identity.IsAuthenticated)
-        {
-            <form asp-controller="Autho" asp-action="Login" method="post">
-                <input type="submit" value="Login or Signup">
-            </form>
-        }
-        else
-        {
-            <form asp-controller="Autho" asp-action="Logout" method="post">
-                <input type="submit" value="Logout">
-            </form>
-        }
-        }
-
         
-        </div>
-    @if (User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated)//pour savoir est ce que l'utilisateur est connecter ou non "User.Identity.IsAuthenticated" return true si l'utilisateur est connecter et flase si non
     {
             <span onclick="openNav()"><img class="profile" src="~/Images/Logo.png" alt="profile"></span>
+            //afficher l'icone de profile sauf pour un utlisateur connecter
 
     }
+    <span class="categorie" onclick="afficherpop()"><p>toutes les categories -></p></span>
+    <a class="ajouter_piece" href=""> + Ajoutez une piece</a>
     <div class="pieces">
-        <span class="categorie" onclick="afficherpop()"><p>toutes les categories -></p></span>
+        
         <div class="popbackground">
             <div class="pop">
                 <a href="">Moteur</a>
