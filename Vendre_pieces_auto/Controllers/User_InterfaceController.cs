@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Security.Claims;
 
 namespace Vendre_pieces_auto.Controllers
 {
@@ -7,6 +8,11 @@ namespace Vendre_pieces_auto.Controllers
     {
         public IActionResult InterfaceUser()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;//recuperer le uid d'utilsateur connecter
+                Console.WriteLine(userId);
+            }
             return View();
         }
         public IActionResult Ajouter_Piece()//cette methode verifie lorsque le user veux ajouter une piece est ce qu'il est authentifie ou non

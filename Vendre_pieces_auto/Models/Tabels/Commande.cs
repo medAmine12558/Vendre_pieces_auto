@@ -1,16 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vendre_pieces_auto.Models.Tabels
 {
     public class Commande
     {
-        public Guid Id { get; set; }
-        [ForeignKey("Acheteur.cs")]
-        public Guid Id_Acheteur { get; set; }
-        [ForeignKey("Vendeur.cs")]
-        public Guid Id_Vendeur { get; set; }
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public string Id_Acheteur { get; set; }
+        public string Id_Vendeur { get; set; }
         [ForeignKey("Piece.cs")]
-        public Guid Id_Piece { get; set; }
+        public int Id_Piece { get; set; }
         public int Qantite { get; set; }
 
     }
