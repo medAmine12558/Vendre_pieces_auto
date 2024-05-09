@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vendre_pieces_auto.Data;
 
@@ -11,9 +12,11 @@ using Vendre_pieces_auto.Data;
 namespace Vendre_pieces_auto.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20240509213252_Migration1")]
+    partial class Migration1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,14 +52,14 @@ namespace Vendre_pieces_auto.Migrations
                     b.ToTable("Commande");
                 });
 
-            modelBuilder.Entity("Vendre_pieces_auto.Models.Tabels.Controlleur", b =>
+            modelBuilder.Entity("Vendre_pieces_auto.Models.Tabels.Controleur", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("Id_controlleur")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id_controlleur");
 
-                    b.ToTable("Controleur");
+                    b.ToTable("controleur");
                 });
 
             modelBuilder.Entity("Vendre_pieces_auto.Models.Tabels.Facture", b =>
