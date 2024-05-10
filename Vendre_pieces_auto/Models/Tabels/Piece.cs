@@ -13,5 +13,10 @@ namespace Vendre_pieces_auto.Models.Tabels
         public string Id_Vendeur { get; set; }
         public int Quantite_stock { get; set; }
         public string image {  get; set; }
+        public bool is_valide { get; set; }
+        public Piece()
+        {
+            is_valide= false;  
+        }
     }
 }
