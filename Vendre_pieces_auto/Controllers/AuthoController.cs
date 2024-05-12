@@ -31,7 +31,7 @@ namespace Vendre_pieces_auto.Controllers
         }
 
 
-        public async Task Login_Piece(string returnUrl = "Piece/Ajouter") //la fonction qui gere l'auth externe (avec google ou facbook ...) et l'auth avec email et password
+        public async Task Login_Piece(string returnUrl = "Piece/Page_Ajouter") //la fonction qui gere l'auth externe (avec google ou facbook ...) et l'auth avec email et password
         {
             var authenticationProperties = new LoginAuthenticationPropertiesBuilder() //Cette ligne crée une nouvelle instance de LoginAuthenticationPropertiesBuilder, un constructeur pour construire des propriétés d'authentification pour l'authentification externe. Ces propriétés permettent de configurer le comportement de l'authentification. d'une autre maniere il construirt un objet authenticationProperties qui contient des informations sur la manière dont le processus d’authentification doit se dérouler
                 .WithRedirectUri(returnUrl) //définit l'URL de redirection après l'authentification. Elle prend comme argument l'URL returnUrl fournie en paramètre de la méthode Login.
