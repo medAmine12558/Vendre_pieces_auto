@@ -49,8 +49,9 @@ namespace Vendre_pieces_auto.Controllers
         [HttpPost]
         public async Task<IActionResult> Ajouter_piece(List<IFormFile> image, Piece piece)
         {
-            
-            piece.image = string.Empty;//initialiser la colone image dans piece par empty
+
+           
+            //piece.image = string.Empty;//initialiser la colone image dans piece par empty
             if (image == null || image.Count == 0)//verifier est ce que les images qui sont passes comme parametre dans la variable image dans cette methode est elle vide ou non(ca veut dire est ce que le user a choisis des images ou non
             {
                 Console.WriteLine("pas de photo");
@@ -60,8 +61,7 @@ namespace Vendre_pieces_auto.Controllers
                 foreach (var file in image)//un iterateur dans la variable image qui est passe comme parametre de cette methode qui contient une liste des images choisits
                 {
                     
-                    if(string.IsNullOrEmpty(piece.image))//verifier est ce que on n'est dans la premiere itteration (pour eviter la "," comme le premier caractere du variable)
-                    {
+                   
                         var fileName=Path.GetFileName(file.FileName);//recuperer le non du photo
                         var uniqueFileName = Guid.NewGuid().ToString() + "_" + fileName;//ajouter une valeur alliatoire et unique dans le non du photo pour eviter la redendence ou niveau des noms des photos
                         var filePath = Path.Combine("wwwroot/Images", uniqueFileName);//la copie dans le path wwwroot/Images
@@ -69,21 +69,12 @@ namespace Vendre_pieces_auto.Controllers
                         {
                             await file.CopyToAsync(stream);//executer le creation du nouveau ficher et librer les ressource systeme
                         }
-                        
-                        piece.image = filePath;//ajouter le nouveau url du photo cree (url) dans les etapes precedante au colone image dans la table Piece
-                    }
-                    else//efectuer le meme tretement precedent sur les autre iterations qui sont pas la premiere
+                    var p = new Photos
                     {
-                        var fileName = Path.GetFileName(file.FileName);
-                        var uniqueFileName = Guid.NewGuid().ToString() + "_" + fileName;
-                        var filePath = Path.Combine("wwwroot/Images", uniqueFileName);
-                        using (var stream = System.IO.File.Create(filePath))
-                        {
-                            await file.CopyToAsync(stream);
-                        }
-                       
-                        piece.image += "," + filePath;//separer entre les urls des image par une vergule
-                    }
+                        image = filePath,//affecter l'url d'image dans le champs correspendent dans la table photos
+                        Piece = piece//affecter id du piece dans le champs correspendent dans la table photos
+                    };
+                    _context.Photos.Add(p);//ajouter le neuveau objet photo dans la table photos
                 }
             }
             

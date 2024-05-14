@@ -16,6 +16,7 @@ namespace Vendre_pieces_auto.Controllers
 
         public IActionResult InterfaceUser()
         {
+            var pieces=_context.Piece.ToList();
                
             if (User.Identity.IsAuthenticated)
             {
@@ -29,7 +30,7 @@ namespace Vendre_pieces_auto.Controllers
 
                 }
             }
-            return View();
+            return View(pieces);
         }
         public IActionResult Ajouter_Piece()//cette methode verifie lorsque le user veux ajouter une piece est ce qu'il est authentifie ou non
         {

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Vendre_pieces_auto.Data;
 
@@ -11,9 +12,11 @@ using Vendre_pieces_auto.Data;
 namespace Vendre_pieces_auto.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20240513224959_aaaa")]
+    partial class aaaa
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,26 +86,6 @@ namespace Vendre_pieces_auto.Migrations
                     b.ToTable("Facture");
                 });
 
-            modelBuilder.Entity("Vendre_pieces_auto.Models.Tabels.Photos", b =>
-                {
-                    b.Property<string>("Id_image")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("id_Piece")
-                        .HasColumnType("int");
-
-                    b.Property<string>("image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id_image");
-
-                    b.HasIndex("id_Piece");
-
-                    b.ToTable("Photos");
-                });
-
             modelBuilder.Entity("Vendre_pieces_auto.Models.Tabels.Piece", b =>
                 {
                     b.Property<int>("Id_piece")
@@ -126,6 +109,10 @@ namespace Vendre_pieces_auto.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("image")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("is_valide")
                         .HasColumnType("bit");
 
@@ -143,17 +130,6 @@ namespace Vendre_pieces_auto.Migrations
                         .IsRequired();
 
                     b.Navigation("Commande");
-                });
-
-            modelBuilder.Entity("Vendre_pieces_auto.Models.Tabels.Photos", b =>
-                {
-                    b.HasOne("Vendre_pieces_auto.Models.Tabels.Piece", "Piece")
-                        .WithMany()
-                        .HasForeignKey("id_Piece")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Piece");
                 });
 #pragma warning restore 612, 618
         }

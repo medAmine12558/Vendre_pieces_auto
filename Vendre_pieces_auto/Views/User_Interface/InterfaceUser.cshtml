@@ -36,8 +36,18 @@
                 <a href="">Carrosserie</a>
             </div>
         </div>
-
-        <div class="piece">
+        @foreach (var p in Model)
+        {
+            <div class="piece">
+                <img class="profile" src="~/Images/Logo.png" alt="profile">
+                <p>@p.Nom_piece</p>
+                <form asp-controller="Piece" asp-action="Detaille" method="post">
+                    <input type="submit" value="Buy Now">
+                    <input type="submit" value="More details">
+                </form>
+            </div>
+        }
+        <!--<div class="piece">
             <img class="profile" src="~/Images/Logo.png" alt="profile">
             <p>Porte</p>
             <form asp-controller="Piece" asp-action="Detaille" method="post">
@@ -64,7 +74,8 @@
             <p>Boite a vitesse</p>
             <input type="submit" value="Buy Now" value="More details">
             <input type="submit" value="More details">
-        </div>
+        </div>-->
+        
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <a href="#">Profile</a>
