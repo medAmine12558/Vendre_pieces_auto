@@ -43,10 +43,13 @@ namespace Vendre_pieces_auto.Controllers
 
 
 
-        public async Task Detaille_pagePiece_check(string returnUrl = "/Piece/Detaille") //la fonction qui gere l'auth externe (avec google ou facbook ...) et l'auth avec email et password
+        public async Task Detaille_pagePiece_check(int id) //la fonction qui gere l'auth externe (avec google ou facbook ...) et l'auth avec email et password
         {
+
+
+
             var authenticationProperties = new LoginAuthenticationPropertiesBuilder() //Cette ligne crée une nouvelle instance de LoginAuthenticationPropertiesBuilder, un constructeur pour construire des propriétés d'authentification pour l'authentification externe. Ces propriétés permettent de configurer le comportement de l'authentification. d'une autre maniere il construirt un objet authenticationProperties qui contient des informations sur la manière dont le processus d’authentification doit se dérouler
-                .WithRedirectUri(returnUrl) //définit l'URL de redirection après l'authentification. Elle prend comme argument l'URL returnUrl fournie en paramètre de la méthode Login.
+                .WithRedirectUri($"/Piece/Detaille/?id={id}") //définit l'URL de redirection après l'authentification. Elle prend comme argument l'URL returnUrl fournie en paramètre de la méthode Login.
                 .Build(); // Cette méthode Build finalise la construction des propriétés d'authentification et retourne l'objet authenticationProperties configuré.
 
             await HttpContext.ChallengeAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);//Cette méthode déclenche le processus d’authentification. "Auth0Constants.AuthenticationScheme" est le nom du schéma d’authentification utilisé (dans ce cas, Auth0), et "authenticationProperties" est l’objet que nous avons construit précédemment.

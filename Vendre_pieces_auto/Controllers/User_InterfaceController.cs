@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Claims;
 using Vendre_pieces_auto.Data;
@@ -16,8 +17,8 @@ namespace Vendre_pieces_auto.Controllers
 
         public IActionResult InterfaceUser()
         {
-            var pieces=_context.Piece.ToList();
-               
+            //var pieces=_context.Piece.ToList();
+            var pieces = _context.Piece.Include(p => p.Photos).ToList();
             if (User.Identity.IsAuthenticated)
             {
                 var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;//recuperer le uid d'utilsateur connecter
@@ -27,7 +28,6 @@ namespace Vendre_pieces_auto.Controllers
                 else
                 {
                     Console.WriteLine("le id n'est pas trouve");
-
                 }
             }
             return View(pieces);

@@ -39,12 +39,17 @@
         @foreach (var p in Model)
         {
             <div class="piece">
-                <img class="profile" src="~/Images/Logo.png" alt="profile">
+                @foreach (var a in p.Photos)
+                {
+                    <img class="profile" src="@Url.Content("~/Images/" + a.image.Substring(15))" alt="Images">
+                    break;
+                }
+                
                 <p>@p.Nom_piece</p>
-                <form asp-controller="Piece" asp-action="Detaille" method="post">
-                    <input type="submit" value="Buy Now">
+                <form asp-controller="Piece" asp-route-id="@p.Id_piece" asp-action="Detaille" method="get">
                     <input type="submit" value="More details">
                 </form>
+                <input type="submit" value="Buy Now">
             </div>
         }
         <!--<div class="piece">

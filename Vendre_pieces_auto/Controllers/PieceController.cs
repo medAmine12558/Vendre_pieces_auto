@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Globalization;
 using Vendre_pieces_auto.Models.Views;
 using static System.Net.Mime.MediaTypeNames;
+using Microsoft.EntityFrameworkCore;
 
 namespace Vendre_pieces_auto.Controllers
 {
@@ -33,14 +34,38 @@ namespace Vendre_pieces_auto.Controllers
                 return RedirectToAction("Login_Piece", "Autho");//ici on a appeler le controleur "AuthoController" avec la methode "Login_Piece" qui va lui meme appeler le processus d'auth
             }
         }
-        public IActionResult Detaille()
+        [HttpGet]
+        public IActionResult Detaille(int id)
         {
+           
             if (!User.Identity.IsAuthenticated)
             {
-                return RedirectToAction("Detaille_pagePiece_check", "Autho");
+               
+
+                return RedirectToAction("Detaille_pagePiece_check", "Autho" , new {id=id});
             }
             else
             {
+                if(id != null){
+                    var pieceWithPhotos = _context.Piece
+          .Include(p => p.Photos)
+          .SingleOrDefault(p => p.Id_piece == id);//faire une jointure pour recuperer les photos aiont le id de photo
+                    Console.WriteLine(pieceWithPhotos.Photos);
+                    if (pieceWithPhotos != null)
+                    {
+                        foreach (var p in pieceWithPhotos.Photos)
+                        {
+                            Console.WriteLine(p.image);//afficher les urls des image
+                        }
+                    }
+                }
+                else
+                {
+
+                }
+               
+
+
                 return View();
 
             }
@@ -49,8 +74,8 @@ namespace Vendre_pieces_auto.Controllers
         [HttpPost]
         public async Task<IActionResult> Ajouter_piece(List<IFormFile> image, Piece piece)
         {
+            var uniqueFileName = "";
 
-           
             //piece.image = string.Empty;//initialiser la colone image dans piece par empty
             if (image == null || image.Count == 0)//verifier est ce que les images qui sont passes comme parametre dans la variable image dans cette methode est elle vide ou non(ca veut dire est ce que le user a choisis des images ou non
             {
@@ -63,12 +88,13 @@ namespace Vendre_pieces_auto.Controllers
                     
                    
                         var fileName=Path.GetFileName(file.FileName);//recuperer le non du photo
-                        var uniqueFileName = Guid.NewGuid().ToString() + "_" + fileName;//ajouter une valeur alliatoire et unique dans le non du photo pour eviter la redendence ou niveau des noms des photos
-                        var filePath = Path.Combine("wwwroot/Images", uniqueFileName);//la copie dans le path wwwroot/Images
+                         uniqueFileName = Guid.NewGuid().ToString() + "_" + fileName;//ajouter une valeur alliatoire et unique dans le non du photo pour eviter la redendence ou niveau des noms des photos
+                        var filePath = Path.Combine("wwwroot/Images/", uniqueFileName);//la copie dans le path wwwroot/Images
                         using(var stream = System.IO.File.Create(filePath))//cree un fichier avec les parametres qui sont definies dans la variable filePath et utiliser la variable stream pour pointer sur cette tache
                         {
                             await file.CopyToAsync(stream);//executer le creation du nouveau ficher et librer les ressource systeme
                         }
+                        
                     var p = new Photos
                     {
                         image = filePath,//affecter l'url d'image dans le champs correspendent dans la table photos
@@ -77,7 +103,7 @@ namespace Vendre_pieces_auto.Controllers
                     _context.Photos.Add(p);//ajouter le neuveau objet photo dans la table photos
                 }
             }
-            
+            Console.WriteLine(uniqueFileName);
             piece.Id_Vendeur = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;//ajouter le id de user courant dans la colone id_vendeur dans la table Piece
             _context.Piece.Add(piece);//ajouter la ligne a la table Piece
             _context.SaveChanges();//executer le stockage de ligne dans la table Piece
