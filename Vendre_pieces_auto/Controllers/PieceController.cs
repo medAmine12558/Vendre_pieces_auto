@@ -37,6 +37,7 @@ namespace Vendre_pieces_auto.Controllers
         [HttpGet]
         public IActionResult Detaille(int id)
         {
+
            
             if (!User.Identity.IsAuthenticated)
             {
@@ -48,25 +49,24 @@ namespace Vendre_pieces_auto.Controllers
             {
                 if(id != null){
                     var pieceWithPhotos = _context.Piece
-          .Include(p => p.Photos)
-          .SingleOrDefault(p => p.Id_piece == id);//faire une jointure pour recuperer les photos aiont le id de photo
-                    Console.WriteLine(pieceWithPhotos.Photos);
+                        .Include(p => p.Photos)
+                        .SingleOrDefault(p => p.Id_piece == id);//faire une jointure pour recuperer les photos aiont le id de photo
+                    
                     if (pieceWithPhotos != null)
                     {
                         foreach (var p in pieceWithPhotos.Photos)
                         {
+                           
                             Console.WriteLine(p.image);//afficher les urls des image
                         }
                     }
+                    return View(pieceWithPhotos.Photos);
                 }
-                else
-                {
-
-                }
-               
 
 
                 return View();
+
+
 
             }
         }
@@ -90,7 +90,8 @@ namespace Vendre_pieces_auto.Controllers
                         var fileName=Path.GetFileName(file.FileName);//recuperer le non du photo
                          uniqueFileName = Guid.NewGuid().ToString() + "_" + fileName;//ajouter une valeur alliatoire et unique dans le non du photo pour eviter la redendence ou niveau des noms des photos
                         var filePath = Path.Combine("wwwroot/Images/", uniqueFileName);//la copie dans le path wwwroot/Images
-                        using(var stream = System.IO.File.Create(filePath))//cree un fichier avec les parametres qui sont definies dans la variable filePath et utiliser la variable stream pour pointer sur cette tache
+                    filePath = filePath.Replace(" ", "-");
+                    using(var stream = System.IO.File.Create(filePath))//cree un fichier avec les parametres qui sont definies dans la variable filePath et utiliser la variable stream pour pointer sur cette tache
                         {
                             await file.CopyToAsync(stream);//executer le creation du nouveau ficher et librer les ressource systeme
                         }

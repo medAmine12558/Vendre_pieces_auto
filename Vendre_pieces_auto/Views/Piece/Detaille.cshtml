@@ -4,5 +4,48 @@
 @{
     Layout = "~/Views/navbar/_Layout.cshtml";
 }
-<h1 >Les detailles</h1>
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="~/css/Detaille.css">
+    <title>Document</title>
+</head>
+<body>
+<!-- Slideshow container -->
+<div style="margin-top:150px;" class="slideshow-container">
 
+  <!-- Full-width images with number and caption text -->
+        @foreach (var p in Model)
+        {
+           
+            <div class="mySlides fade">
+                <img src=@Url.Content("~/Images/" + p.image.Substring(15)) style="width:100%" alt="Images">
+            </div>
+        }
+  <!--<div class="mySlides fade">
+    <div class="numbertext">1 / 3</div>
+    <img src="img1.jpg" style="width:100%">
+    <div class="text">Caption Text</div>
+  </div>
+
+  <div class="mySlides fade">
+    <div class="numbertext">2 / 3</div>
+    <img src="img2.jpg" style="width:100%">
+    <div class="text">Caption Two</div>
+  </div>
+
+  <div class="mySlides fade">
+    <div class="numbertext">3 / 3</div>
+    <img src="img3.jpg" style="width:100%">
+    <div class="text">Caption Three</div>
+        </div>-->
+        <!-- Next and previous buttons -->
+  <a style="background-color:black;" class="prev" onclick="plusSlides(-1)">&#10094;</a>
+  <a style="background-color:black;" class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
+<br>
+    <script src="~/js/Detaille.js"></script>
+</body>
+</html>
