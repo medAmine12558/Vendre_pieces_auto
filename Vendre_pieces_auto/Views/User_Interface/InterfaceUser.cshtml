@@ -8,6 +8,151 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="~/css/InterfaceUser.css">
     <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: lightgrey;
+            padding: 20px;
+            font-family: Arial;
+        }
+
+        /* Center website */
+        .main {
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        h1 {
+            font-size: 50px;
+            word-break: break-all;
+        }
+
+        .row {
+            margin: 10px -16px;
+        }
+
+            /* Add padding BETWEEN each column */
+            .row,
+            .row > .column {
+                padding: 8px;
+            }
+
+        /* Create three equal columns that floats next to each other */
+        .column {
+            float: left;
+            width: 33.33%;
+            display: none; /* Hide all elements by default */
+            display: inline-block;
+            border:1px solid black;
+        }
+
+        /* Clear floats after rows */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        /* Content */
+        .content {
+            background-color: white;
+            padding: 10px;
+           
+        }
+
+        /* The "show" class is added to the filtered elements */
+        .show {
+            display: block;
+        }
+
+        .profile {
+            float: right;
+            height: auto;
+            width: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        /* Style the buttons */
+        .btn {
+            border: none;
+            outline: none;
+            padding: 12px 16px;
+            background-color: white;
+            cursor: pointer;
+        }
+
+            .btn:hover {
+                background-color: #ddd;
+            }
+
+            .btn.active {
+                background-color: #666;
+                color: white;
+            }
+
+        .custom-select {
+            position: relative;
+            font-family: Arial;
+        }
+
+            .custom-select select {
+                display: none; /*hide original SELECT element: */
+            }
+
+        .select-selected {
+            background-color: DodgerBlue;
+        }
+
+            /* Style the arrow inside the select element: */
+            .select-selected:after {
+                position: absolute;
+                content: "";
+                top: 14px;
+                right: 10px;
+                width: 0;
+                height: 0;
+                border: 6px solid transparent;
+                border-color: #fff transparent transparent transparent;
+            }
+
+            /* Point the arrow upwards when the select box is open (active): */
+            .select-selected.select-arrow-active:after {
+                border-color: transparent transparent #fff transparent;
+                top: 7px;
+            }
+
+        /* style the items (options), including the selected item: */
+        .select-items div, .select-selected {
+            color: #ffffff;
+            padding: 8px 16px;
+            border: 1px solid transparent;
+            border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+            cursor: pointer;
+        }
+
+        /* Style items (options): */
+        .select-items {
+            position: absolute;
+            background-color: DodgerBlue;
+            top: 100%;
+            left: 0;
+            right: 0;
+            z-index: 99;
+        }
+
+        /* Hide the items when the select box is closed: */
+        .select-hide {
+            display: none;
+        }
+
+        .select-items div:hover, .same-as-selected {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+    </style>
 </head>
 
 <body class="body">
@@ -19,9 +164,74 @@
             //afficher l'icone de profile sauf pour un utlisateur connecter
 
     }
-    <span class="categorie" onclick="afficherpop()"><p>toutes les categories -></p></span>
-    <a class="ajouter_piece" href="/Piece/Page_Ajouter"> + Ajoutez une piece</a>
-    <div class="pieces">
+    
+    <!-- MAIN (Center website) -->
+    <div class="main">
+
+        <h1>E&M AUTO PARTS</h1>
+        <a class="ajouter_piece" href="/Piece/Page_Ajouter"> + Ajoutez une piece</a>
+
+       
+
+        
+        <div style="margin-top:20px;" class="custom-select" style="width:200px;">
+            <label>Choisissez la categorie : </label>
+            <select id="categorySelect" style="display:block;">
+                <option value="All">All</option>
+                <option value="Moteur">Moteur</option>
+                <option value="Échappement">Échappement</option>
+                <option value="Train roulant">Train roulant</option>
+                <option value="Éclairage">Éclairage</option>
+                <option value="Climatisation">Climatisation</option>
+                <option value="Chauffage/ventilation">Chauffage/ventilation</option>
+                <option value="Freinage">Freinage</option>
+                <option value="Direction">Direction</option>
+                <option value="Carrosserie">Carrosserie</option>
+            </select>
+        </div>
+
+        <!-- Portfolio Gallery Grid -->
+        <div class="row">
+
+            @foreach(var p in Model)
+            {
+
+                <div style="height:240px;display:inline-block;background-color:white;margin-left:30px" class="colum @p.Type_name">
+                    <div style="width:150px;" class="content">
+                        @foreach(var a in p.Photos)
+                        {
+                            <img src="@Url.Content("~/Images/" + a.image.Substring(15))" alt="Images" style="width:100%;height:100px">
+                            break;
+                        }
+                    </div>
+
+
+
+
+
+                    <p style="text-align: center;">@p.Nom_piece</p>
+                <form asp-controller="Piece" asp-route-id="@p.Id_piece" asp-action="Detaille" method="get">
+                        <input style="margin-left:15px;cursor:pointer" type="submit" value="More details">
+                </form>
+                    <input style="margin-left:15px;cursor:pointer;margin-top:5px" type="submit" value="Buy Now">
+                </div>
+            
+            }
+
+                
+            
+
+
+         
+      
+
+            <!-- END GRID -->
+        </div>
+
+        <!-- END MAIN -->
+    </div>
+
+    <!--<div class="pieces">
         
         <div class="popbackground">
             <div class="pop">
@@ -35,23 +245,8 @@
                 <a href="">Direction</a>
                 <a href="">Carrosserie</a>
             </div>
-        </div>
-        @foreach (var p in Model)
-        {
-            <div class="piece">
-                @foreach (var a in p.Photos)
-                {
-                    <img class="profile" src="@Url.Content("~/Images/" + a.image.Substring(15))" alt="Images">
-                    break;
-                }
-                
-                <p>@p.Nom_piece</p>
-                <form asp-controller="Piece" asp-route-id="@p.Id_piece" asp-action="Detaille" method="get">
-                    <input type="submit" value="More details">
-                </form>
-                <input type="submit" value="Buy Now">
-            </div>
-        }
+        </div>-->
+       
         <!--<div class="piece">
             <img class="profile" src="~/Images/Logo.png" alt="profile">
             <p>Porte</p>
@@ -84,13 +279,24 @@
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <a href="#">Profile</a>
-            <a href="#">Pagne</a>
+            <a href="#">Panier</a>
             <a href="#">Historique d'achats</a>
             <a href="#">Messages</a>
-            <a href="">Favorie</a>
+            <a href="">Favories</a>
             <a asp-controller="Autho" asp-action="Logout" >Logout</a>
         </div>
 
+
         <script src="~/js/InterfaceUser.js"></script>
-</body>
+    <script>
+        document.getElementById('categorySelect').addEventListener('change', function () {
+            var selectedValue = this.value;
+            if (selectedValue !== "All") {
+                window.location.href = '/User_Interface/CategorieSelected?categorie=' + selectedValue;
+            } else {
+                window.location.href = '/User_Interface/InterfaceUser';
+            }
+        });
+    </script>
+    </body>
 </html>

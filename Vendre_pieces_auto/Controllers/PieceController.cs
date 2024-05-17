@@ -60,7 +60,7 @@ namespace Vendre_pieces_auto.Controllers
                             Console.WriteLine(p.image);//afficher les urls des image
                         }
                     }
-                    return View(pieceWithPhotos.Photos);
+                    return View(pieceWithPhotos);
                 }
 
 

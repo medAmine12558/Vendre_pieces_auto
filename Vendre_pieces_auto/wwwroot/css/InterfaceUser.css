@@ -208,3 +208,13 @@ body {
         background-color: #0048ff;
         color: #ccc;
     }
+.column {
+    float: left;
+    width: 33.33%;
+    display: none; /* Hide all elements by default */
+}
+.content {
+    background-color: white;
+    padding: 10px;
+}
+
