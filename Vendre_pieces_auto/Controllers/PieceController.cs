@@ -50,7 +50,7 @@ namespace Vendre_pieces_auto.Controllers
                 if(id != null){
                     var pieceWithPhotos = _context.Piece
                         .Include(p => p.Photos)
-                        .SingleOrDefault(p => p.Id_piece == id);//faire une jointure pour recuperer les photos aiont le id de photo
+                        .SingleOrDefault(p => p.Id_piece == id);//faire une jointure pour recuperer les photos ayont le id de photo
                     
                     if (pieceWithPhotos != null)
                     {

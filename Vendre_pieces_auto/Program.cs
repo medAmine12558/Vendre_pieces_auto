@@ -3,6 +3,7 @@ using Vendre_pieces_auto.Data;
 using Auth0.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddSession();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -18,6 +19,7 @@ builder.Services
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+app.UseSession();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

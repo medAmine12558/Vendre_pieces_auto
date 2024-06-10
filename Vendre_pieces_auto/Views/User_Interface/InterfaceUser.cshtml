@@ -214,7 +214,9 @@
                 <form asp-controller="Piece" asp-route-id="@p.Id_piece" asp-action="Detaille" method="get">
                         <input style="margin-left:15px;cursor:pointer" type="submit" value="More details">
                 </form>
-                    <input style="margin-left:15px;cursor:pointer;margin-top:5px" type="submit" value="Buy Now">
+                <form asp-controller="panier" asp-route-id="@p.Id_piece" asp-action="ajouter_panier" method="get">
+                        <input style="margin-left:15px;cursor:pointer;margin-top:5px" type="submit" value="ajouter au panier">
+                </form>
                 </div>
             
             }
@@ -273,7 +275,7 @@
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
             <a href="#">Profile</a>
-            <a href="#">Panier</a>
+            <a href="/panier/page_panier">Panier</a>
             <a href="#">Historique d'achats</a>
             <a href="#">Messages</a>
             <a href="">Favories</a>

@@ -9,14 +9,13 @@
     <!-- Metadonnées, styles, etc. -->
 </head>
 <body>
-    <header>
+    <header style="margin-top:0px;">
         @Html.Partial("~/Views/navbar/Navbar.cshtml")<!--Ici on a apporte le navbar qu'on est cree pour but de remplacer le navbar pardefaut de .net-->
     </header>
 
     <main role="main">
         @RenderBody()<!--Ici on va apporter la page HTML qu'on va ajouter dans elle la navbar cree par nous meme-->
     </main>
-
     <footer>
         <!-- Pied de page -->
     </footer>
