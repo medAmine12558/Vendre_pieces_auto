@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Vendre_pieces_auto.Models.Tabels
 {
@@ -12,8 +13,9 @@ namespace Vendre_pieces_auto.Models.Tabels
         public string Type_name { get; set; }
         public string Id_Vendeur { get; set; }
         public int Quantite_stock { get; set; }
-        public string image {  get; set; }
         public bool is_valide { get; set; }
+        public float prix {  get; set; }
+        public virtual ICollection<Photos> Photos { get; set; }
         public Piece()
         {
             is_valide= false;  

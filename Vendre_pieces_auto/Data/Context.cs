@@ -13,5 +13,6 @@ namespace Vendre_pieces_auto.Data
         public DbSet<Piece> Piece { get; set; }
         public DbSet<Commande> Commande { get; set; }
         public DbSet<Facture> Facture { get; set; }
+        public DbSet<Photos> Photos { get; set; }
     }
 }

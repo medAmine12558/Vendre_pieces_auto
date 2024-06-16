@@ -15,4 +15,4 @@ function openNav() {
             pop.classList.remove("active");
         }
     })
-  }
+}
