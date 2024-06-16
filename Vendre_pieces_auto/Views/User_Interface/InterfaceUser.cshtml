@@ -214,63 +214,19 @@
                 <form asp-controller="Piece" asp-route-id="@p.Id_piece" asp-action="Detaille" method="get">
                         <input style="margin-left:15px;cursor:pointer" type="submit" value="More details">
                 </form>
-                <form asp-controller="panier" asp-route-id="@p.Id_piece" asp-action="ajouter_panier" method="get">
-                        <input style="margin-left:15px;cursor:pointer;margin-top:5px" type="submit" value="ajouter au panier">
-                </form>
+                    <button class="ajouter-panier" style="margin-left:15px;cursor:pointer;margin-top:5px" data-url="/panier/ajouter_panier" data-id="@p.Id_piece">
+                        Ajouter au panier
+                </button>
                 </div>
             
             }
 
-            <!-- END GRID -->
+           
         </div>
 
-        <!-- END MAIN -->
+      
     </div>
 
-    <!--<div class="pieces">
-        
-        <div class="popbackground">
-            <div class="pop">
-                <a href="">Moteur</a>
-                <a href="">Échappement</a>
-                <a href="">Train roulant</a>
-                <a href="">Éclairage</a>
-                <a href="">Climatisation</a>
-                <a href="">Chauffage/ventilation</a>
-                <a href="">Freinage</a>
-                <a href="">Direction</a>
-                <a href="">Carrosserie</a>
-            </div>
-        </div>-->
-       
-        <!--<div class="piece">
-            <img class="profile" src="~/Images/Logo.png" alt="profile">
-            <p>Porte</p>
-            <form asp-controller="Piece" asp-action="Detaille" method="post">
-                <input type="submit" value="Buy Now">
-                <input type="submit" value="More details">
-            </form>
-        </div>
-
-
-        <div class="piece">
-            <img class="profile" src="~/Images/Logo.png" alt="profile">
-            <p>Porte</p>
-            <input type="submit" value="Buy Now">
-            <input type="submit" value="More details">
-        </div>
-        <div class="piece">
-            <img class="profile" src="~/Images/Logo.png" alt="profile">
-            <p>Rouleurs</p>
-            <input type="submit" value="Buy Now">
-            <input type="submit" value="More details">
-        </div>
-        <div class="piece">
-            <img class="profile" src="~/Images/Logo.png" alt="profile">
-            <p>Boite a vitesse</p>
-            <input type="submit" value="Buy Now" value="More details">
-            <input type="submit" value="More details">
-        </div>-->
         
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
@@ -294,5 +250,34 @@
             }
         });
     </script>
+
+    <script>
+        $(document).ready(function () {
+            $('.ajouter-panier').click(function () {
+                var pieceId = $(this).data('id');
+                var url = $(this).data('url');
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    data: { id: pieceId },
+                    success: function (response) {
+                        if (response.success) {
+                            alert('Pièce ajoutée au panier avec succès!');
+                        } else if (response.redirectUrl) {
+                            window.location.href = response.redirectUrl;
+                        } else {
+                            alert('Erreur lors de l\'ajout au panier.');
+                        }
+                    },
+                    error: function () {
+                        alert('Erreur de communication avec le serveur.');
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
     </body>
 </html>

@@ -14,6 +14,7 @@ namespace Vendre_pieces_auto.Models.Tabels
         public string Id_Vendeur { get; set; }
         public int Quantite_stock { get; set; }
         public bool is_valide { get; set; }
+        public float prix {  get; set; }
         public virtual ICollection<Photos> Photos { get; set; }
         public Piece()
         {

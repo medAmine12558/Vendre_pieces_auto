@@ -31,8 +31,10 @@
             <input type="file" id="image" name="image" multiple>
             
             <label>Quantite : </label>
-            <input asp-for="Quantite_stock" name="Quantite_stock" type="number" />
+            <input asp-for="Quantite_stock" name="Quantite_stock" type="number" required/>
+            <input asp-for="prix" name="prix" type="number" step="0.01" placeholder="le prix" required />
             <input type="submit" value="Valider" />
+            
         </form>
         </div>
 

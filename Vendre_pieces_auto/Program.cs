@@ -1,6 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Vendre_pieces_auto.Data;
 using Auth0.AspNetCore.Authentication;
+using Microsoft.Extensions.DependencyInjection;
+using Vendre_pieces_auto.Models.Tabels;
+using Microsoft.AspNetCore.Identity.UI.Services;
+
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSession();
@@ -14,6 +18,9 @@ builder.Services
     .AddAuth0WebAppAuthentication(options => {
         options.Domain = builder.Configuration["Auth0:Domain"];
         options.ClientId = builder.Configuration["Auth0:ClientId"];
+        options.ClientSecret = builder.Configuration["Auth0:ClientSecret"];
+        options.ResponseType = "code";
+        options.Scope = "openid profile email";
     }); 
 
 builder.Services.AddControllersWithViews();
@@ -33,6 +40,9 @@ app.UseRouting();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+
+
 
 app.MapControllerRoute(
     name: "default",
