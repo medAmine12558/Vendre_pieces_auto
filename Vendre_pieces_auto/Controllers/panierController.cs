@@ -18,7 +18,7 @@ namespace Vendre_pieces_auto.Controllers
             this._context = context;
         }
         [HttpGet]
-        public IActionResult ajouter_panier(int id)
+        public IActionResult ajouter_panier(int id,int q)
         {
             var pieces = _context.Piece.Include(p => p.Photos).ToList();
             if (!User.Identity.IsAuthenticated)
@@ -39,7 +39,11 @@ namespace Vendre_pieces_auto.Controllers
                     {
                         panier = new List<Piece>();
                     }
-                    panier.Add(_context.Piece.Include(p => p.Photos).SingleOrDefault(p => p.Id_piece == id));
+                    var piece = _context.Piece.Include(p => p.Photos).SingleOrDefault(p => p.Id_piece == id);
+                    piece.Quantite_stock = q;
+                    panier.Add(piece);
+                    foreach(var p in panier)
+                        Console.WriteLine(p.Quantite_stock);
 
                     HttpContext.Session.Set("panier", panier);
                     return Json(new { success = true });

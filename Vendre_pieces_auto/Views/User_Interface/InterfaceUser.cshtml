@@ -214,9 +214,31 @@
                 <form asp-controller="Piece" asp-route-id="@p.Id_piece" asp-action="Detaille" method="get">
                         <input style="margin-left:15px;cursor:pointer" type="submit" value="More details">
                 </form>
-                    <button class="ajouter-panier" style="margin-left:15px;cursor:pointer;margin-top:5px" data-url="/panier/ajouter_panier" data-id="@p.Id_piece">
+                    <button type="button"  data-toggle="modal" data-target="#exampleModal" class="ajouter-panier" style="margin-left:15px;cursor:pointer;margin-top:5px" data-url="/panier/ajouter_panier" data-id="@p.Id_piece">
                         Ajouter au panier
                 </button>
+                   
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <form data-id="@p.Id_piece" data-url="/panier/ajouter_panier" method="get">
+                                    <label>Quantite : </label>
+                                    <input type="number" name="Quantite" />
+                                    <input type="submit" value="confirmer" />
+                                    </form>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             
             }
@@ -253,13 +275,17 @@
 
     <script>
         $(document).ready(function () {
-            $('.ajouter-panier').click(function () {
+            $('form').on('submit',function (e) {
+                e.preventDefault();
                 var pieceId = $(this).data('id');
                 var url = $(this).data('url');
+                var quantite = $(this).find("input[name='Quantite']").val();
                 $.ajax({
                     url: url,
                     type: 'GET',
-                    data: { id: pieceId },
+                    data: { id: pieceId ,
+                        q: quantite
+                    },
                     success: function (response) {
                         if (response.success) {
                             alert('Pièce ajoutée au panier avec succès!');
