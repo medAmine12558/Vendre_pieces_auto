@@ -214,13 +214,13 @@
                 <form asp-controller="Piece" asp-route-id="@p.Id_piece" asp-action="Detaille" method="get">
                         <input style="margin-left:15px;cursor:pointer" type="submit" value="More details">
                 </form>
-                    <button type="button"  data-toggle="modal" data-target="#exampleModal" class="ajouter-panier" style="margin-left:15px;cursor:pointer;margin-top:5px" data-url="/panier/ajouter_panier" data-id="@p.Id_piece">
+                    <button type="button"  data-toggle="modal" data-target="#exampleModal_@p.Id_piece" class="ajouter-panier" style="margin-left:15px;cursor:pointer;margin-top:5px" data-url="/panier/ajouter_panier" data-id="@p.Id_piece">
                         Ajouter au panier
-                </button>
+                    </button>
                    
 
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="exampleModal_@p.Id_piece" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">

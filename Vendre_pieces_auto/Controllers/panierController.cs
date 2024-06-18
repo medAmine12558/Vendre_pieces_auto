@@ -17,40 +17,51 @@ namespace Vendre_pieces_auto.Controllers
         {
             this._context = context;
         }
+        private void ajouter_panier_function(int id,int q)
+        {
+            List<Piece> panier = HttpContext.Session.Get<List<Piece>>("panier");
+            if (panier == null)
+            {
+                panier = new List<Piece>();
+            }
+            var piece = _context.Piece.Include(p => p.Photos).SingleOrDefault(p => p.Id_piece == id);
+            piece.Quantite_stock = q;
+            panier.Add(piece);
+            foreach (var p in panier)
+                Console.WriteLine(p.Nom_piece);
+
+            HttpContext.Session.Set("panier", panier);
+
+        }
         [HttpGet]
         public IActionResult ajouter_panier(int id,int q)
         {
+            Console.WriteLine("le id est : "+id);
             var pieces = _context.Piece.Include(p => p.Photos).ToList();
             if (!User.Identity.IsAuthenticated)
             {
-                return Json(new { success = false, RedirectUrl = Url.Action("Panier_Auth", "Autho", new { id = id }) });
-
+                return Json(new { success = false, RedirectUrl = Url.Action("Panier_Auth", "Autho", new { id = id, q = q }) });
+            } 
+            if (id != null)
+            {
+                ajouter_panier_function(id, q);
+                return Json(new { success = true });
+            
             }
             else
             {
-                if (id != null)
-                {
-
-
-
-                    List<Piece> panier = HttpContext.Session.Get<List<Piece>>("panier");
-
-                    if (panier == null)
-                    {
-                        panier = new List<Piece>();
-                    }
-                    var piece = _context.Piece.Include(p => p.Photos).SingleOrDefault(p => p.Id_piece == id);
-                    piece.Quantite_stock = q;
-                    panier.Add(piece);
-                    foreach(var p in panier)
-                        Console.WriteLine(p.Quantite_stock);
-
-                    HttpContext.Session.Set("panier", panier);
-                    return Json(new { success = true });
-                }
-                return Json(new { success = true });
+                
+                return Json(new { success = false });
             }
         }
+        public IActionResult redirection_apres_auth(int id, int q)
+        {
+            ajouter_panier_function(id, q);
+            return RedirectToAction("InterfaceUser","User_Interface");
+
+
+        }
+
         public IActionResult page_panier()
         {
             float somme = 0;

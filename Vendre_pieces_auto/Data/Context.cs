@@ -8,11 +8,17 @@ namespace Vendre_pieces_auto.Data
         public Context(DbContextOptions options) : base(options) {
         
         }
-       
-        public DbSet<Controlleur> Controleur { get; set; }
+        
+
+
+        
         public DbSet<Piece> Piece { get; set; }
         public DbSet<Commande> Commande { get; set; }
-        public DbSet<Facture> Facture { get; set; }
         public DbSet<Photos> Photos { get; set; }
+        public DbSet<Commander> Commander { get; set; }
+        public DbSet<Controlleur> Controleur { get; set; }
+        public DbSet<Facture> Facture { get; set; }
+       
+
     }
 }
