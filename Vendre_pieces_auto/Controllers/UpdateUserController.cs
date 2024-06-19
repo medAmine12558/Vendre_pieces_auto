@@ -23,22 +23,9 @@ namespace Vendre_pieces_auto.Controllers
         
        
         [HttpPost]
-        public async Task<IActionResult> UpdateUserMetadata([FromForm] UserMetadataModel model)
+        public async Task<IActionResult> UpdateUserMetadata([FromForm] UserMetadataModel model )
         {
-            if (!ModelState.IsValid) {
-                foreach (var key in ModelState.Keys)
-                {
-                    if (key == "Tele" || key == "Adresse" || key== "Nom" || key == "Prenom")
-                    {
-                        ModelState[key].Errors.Clear();
-                    }
-                }
-            }
-            if (!ModelState.IsValid)
-            {
-                // Si d'autres erreurs de validation existent, retournez une réponse appropriée
-                return BadRequest(ModelState);
-            }
+            
             // Récupération de l'ID utilisateur à partir des claims du contexte HTTP actuel
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -87,7 +74,7 @@ namespace Vendre_pieces_auto.Controllers
             if (response.IsSuccessStatusCode)
             {
                 // Si réussie, retourner une réponse appropriée (à déterminer)
-                return null; // Remplacer 'null' par une réponse appropriée
+                return Ok(new { success = true }); // Remplacer 'null' par une réponse appropriée
             }
             else
             {
@@ -96,12 +83,12 @@ namespace Vendre_pieces_auto.Controllers
                 Console.WriteLine($"Erreur lors de la mise à jour des métadonnées de l'utilisateur : {errorContent}");
 
                 // Redirection vers une autre action en cas d'échec
-                return RedirectToAction("InterfaceUser", "User_Interface");
+                return Ok(new { success = false });
             }
         }
 
 
-        private async Task<string> GetManagementApiAccessToken()
+        public async Task<string> GetManagementApiAccessToken()
         {
             // Création d'un nouveau client HTTP pour envoyer la requête
             var client = new HttpClient();

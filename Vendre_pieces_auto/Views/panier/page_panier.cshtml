@@ -105,7 +105,9 @@
                         </div>
                     </div>
                     <div class="float-right">
-                        <button id="backToShoppingButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Back to shopping</button>
+                        <form style="display:inline-block" asp-action="InterfaceUser" asp-controller="User_Interface" method="get">
+                            <input type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" value="Back to shopping">
+                        </form>
                         <!--<button id="facture" type="button" class="btn btn-lg btn-primary mt-2">Terminer la commande</button>-->
                         <!-- Button trigger modal -->
                         <button id="commande" data-url="/Commande/ajouter_comm" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
@@ -125,6 +127,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button  type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        
                                         <button id="facture" type="button" class="btn btn-primary">Afficher la facture</button>
                                     </div>
                                 </div>
@@ -143,7 +146,8 @@
             window.location.href = '@Url.Action("InterfaceUser", "User_Interface")';
         };
         document.getElementById('facture').onclick = function () {
-            window.location.href = '@Url.Action("Afficher_facture", "Commande")'
+            var id = this.getAttribute('data-id');
+            window.location.href = '@Url.Action("Afficher_facture", "Commande")';
         }
     </script>
 

@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Auth0.ManagementApi;
+using Azure.Identity;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Vendre_pieces_auto.Data;
 using Vendre_pieces_auto.Models.Tabels;
 
@@ -8,8 +11,11 @@ namespace Vendre_pieces_auto.Controllers
     public class CommandeController : Controller
     {
         private readonly Context _context;
-        public CommandeController(Context context) {
+
+        public CommandeController(Context context)
+        {
             this._context = context;
+            
         }
         public IActionResult ajouter_comm()
         {
@@ -44,10 +50,10 @@ namespace Vendre_pieces_auto.Controllers
             _context.SaveChanges();
             return Json(new { success = true });
         }
-        public IActionResult Afficher_facture()
+        public async  Task<IActionResult> Afficher_facture()
         {
 
-            return Json(new { success = true });
+            return null;
         }
     }
 }

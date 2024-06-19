@@ -11,7 +11,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
 
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .popup {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            position: fixed; /* Changed from 'absolute' to 'fixed' */
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.5s linear;
+        }
+
+
+        .open-popup {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .popup button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
 
 
 
@@ -26,58 +73,82 @@
         </div>
         <div class="col-md-5 border-right">
             <div class="p-3 py-5">
-                    <form action="/api/user/metadata" method="post">
+                    <form id="updateMetadataForm" data-url="/api/user/metadata" method="post">
                    
                 <div class="row mt-2">
-                        <div class="col-md-6"><label class="labels">Nom</label><input type="text" name="Nom" class="form-control" placeholder="first name" ></div>
-                        <div class="col-md-6"><label class="labels">Prenom</label><input type="text" name="Prenom" class="form-control" value="" placeholder="surname"></div>
+                            <div class="col-md-6"><label class="labels">Nom</label><input type="text" name="Nom" class="form-control" placeholder="first name" value="@Model.nom"></div>
+                            <div class="col-md-6"><label class="labels">Prenom</label><input type="text" name="Prenom" class="form-control" placeholder="surname" value="@Model.prenom"></div>
                 </div>
                 <div class="row mt-3">
-                <div class="col-md-12"><label class="labels">Adresse</label><input type="text" name="Adresse" class="form-control" placeholder="Ton Adresse" ></div>
-                <div class="col-md-12"><label class="labels">Telephone</label><input type="text" name="Tele" class="form-control" placeholder="Ton telephone"></div>
+                            <div class="col-md-12"><label class="labels">Adresse</label><input type="text" name="Adresse" class="form-control" placeholder="Ton Adresse" value="@Model.adresse"></div>
+                            <div class="col-md-12"><label class="labels">Telephone</label><input type="text" name="Tele" class="form-control" placeholder="Ton telephone" value="@Model.tele"></div>
                     
                 </div>
 
                         <div style="margin-top:20px" class="mt-5 text-center"><input type="submit" class="btn btn-primary profile-button" value="Save Profile" /></div>
               </form>
-            </div>
-             
+                    <div class="container">
+                        <div class="popup" id="popup">
+                            <h2>Information !</h2>
+                            <p>Les infos sont bien enregistées.</p>
+                            <button type="button" onclick="closePopup()">Fermer</button>
+                        </div>
+                    </div>
+            </div>             
         </div>
-        
     </div>
 </div>
 </div>
 </div>
-
-
-
-    <script>
-        $(document).ready(function () {
-            $('#updateMetadataForm').submit(function (e) {
-                e.preventDefault()
-                var nom = $(this).find("input[name='Nom']").val();
-                var prenom = $(this).find("input[name='Prenom']").val();
-                var adresse = $(this).find("input[name='Adresse']").val();
-                var tele = $(this).find("input[name='Tele']").val();
-                var url = $(this).data('url');
-                $.ajax({
-                    url: url,
-                    type: 'POST',
-                    data: JSON.stringify({
-                        nom : nom,
-                        prenom : prenom,
-                        adresse: adresse,
-                        tele : tele
-                    }),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    error: function () {
-                        alert('Erreur de communication avec le serveur1.');
-                    }
-                });
-            });
-        });
-    </script>
+   
 
 </body>
+
+    <script>
+    $(document).ready(function () {
+
+        function openPopup() {
+            $('#popup').addClass('open-popup');
+        }
+
+        function closePopup() {
+            $('#popup').removeClass('open-popup');
+        }
+
+        
+       
+        $('#popup button').on('click', closePopup);
+
+        $('#updateMetadataForm').submit(function (e) {
+            e.preventDefault();
+            var url = $(this).data('url');
+            var formData = new FormData(this);
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+
+                success: function (response) {
+                    if (response.success) {
+                        openPopup();
+                    } else if (response.redirectUrl) {
+                        window.location.href = response.redirectUrl;
+                    } else {
+                        alert('Erreur lors de l\'ajout au panier.');
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.log('Erreur: ' + xhr.responseText);
+                    alert('Erreur de communication avec le serveur.');
+                }
+            });
+        });
+    });
+
+    </script>
+
+
 </html>

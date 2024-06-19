@@ -18,6 +18,7 @@ namespace Vendre_pieces_auto.Data
         public DbSet<Commander> Commander { get; set; }
         public DbSet<Controlleur> Controleur { get; set; }
         public DbSet<Facture> Facture { get; set; }
+        public DbSet<Favoris> Favoris { get; set; }
        
 
     }
