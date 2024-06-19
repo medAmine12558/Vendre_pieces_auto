@@ -3,8 +3,6 @@ using Auth0.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Security.Claims;
-using Vendre_pieces_auto.Models.Tabels;
 
 namespace Vendre_pieces_auto.Controllers
 {

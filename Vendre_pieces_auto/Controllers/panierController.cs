@@ -38,6 +38,7 @@ namespace Vendre_pieces_auto.Controllers
         {
             Console.WriteLine("le id est : "+id);
             var pieces = _context.Piece.Include(p => p.Photos).ToList();
+
             if (!User.Identity.IsAuthenticated)
             {
                 return Json(new { success = false, RedirectUrl = Url.Action("Panier_Auth", "Autho", new { id = id, q = q }) });

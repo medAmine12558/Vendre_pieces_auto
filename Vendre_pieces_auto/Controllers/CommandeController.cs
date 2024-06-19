@@ -44,5 +44,10 @@ namespace Vendre_pieces_auto.Controllers
             _context.SaveChanges();
             return Json(new { success = true });
         }
+        public IActionResult Afficher_facture()
+        {
+
+            return Json(new { success = true });
+        }
     }
 }

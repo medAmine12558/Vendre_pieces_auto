@@ -21,10 +21,14 @@ namespace Vendre_pieces_auto.Controllers
         {
             //var pieces=_context.Piece.ToList();
             var pieces = _context.Piece.Include(p => p.Photos).ToList();
+            String pictureUrl = null;
             if (User.Identity.IsAuthenticated)
             {
                 var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;//recuperer le uid d'utilsateur connecter
-                if(_context.Controleur.Any(c => c.Id == userId)) {//verifier est ce que le id de l'utilisateur connecter est ce qu'il est enregistrer dans la base de donnees des controlleur , c'est une methode pour que mon systeme soit capable de savoir automatiquement si le user connecter est un controlleur ou non
+                pictureUrl=HttpContext.User.FindFirst("picture")?.Value;
+
+
+                if (_context.Controleur.Any(c => c.Id == userId)) {//verifier est ce que le id de l'utilisateur connecter est ce qu'il est enregistrer dans la base de donnees des controlleur , c'est une methode pour que mon systeme soit capable de savoir automatiquement si le user connecter est un controlleur ou non
                     Console.WriteLine("le id est trouve");
                 }
                 else
@@ -32,7 +36,7 @@ namespace Vendre_pieces_auto.Controllers
                     Console.WriteLine("le id n'est pas trouve");
                 }
             }
-            return View(pieces);
+            return View(new { pieces = pieces , pictureUrl = pictureUrl });
         }
         public IActionResult Ajouter_Piece()//cette methode verifie lorsque le user veux ajouter une piece est ce qu'il est authentifie ou non
         {
@@ -50,6 +54,12 @@ namespace Vendre_pieces_auto.Controllers
             var cat=_context.Piece.Include(x => x.Photos).Where(p => p.Type_name.Equals(categorie));//recuperer toutes les produits ayant le meme categorie passe dans le url
             ViewBag.SelectedCategorie = categorie;
             return View("~/Views/User_Interface/InterfaceUser.cshtml", cat);
+        }
+        public IActionResult PageProfile()
+        {
+            var email=HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
+            var picture = HttpContext.User.FindFirst("picture")?.Value;
+            return View("~/Views/User_Interface/InterfaceProfile.cshtml",new {email=email,picture=picture});
         }
     }
     
