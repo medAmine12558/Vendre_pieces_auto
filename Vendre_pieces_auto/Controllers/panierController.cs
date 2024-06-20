@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
+using Vendre_pieces_auto.Controllers.classe;
 using Vendre_pieces_auto.Data;
 using Vendre_pieces_auto.Models.Tabels;
 
@@ -19,16 +20,29 @@ namespace Vendre_pieces_auto.Controllers
         }
         private void ajouter_panier_function(int id,int q)
         {
-            List<Piece> panier = HttpContext.Session.Get<List<Piece>>("panier");
+            List<Piece_Session> panier = HttpContext.Session.Get<List<Piece_Session>>("panier");
             if (panier == null)
             {
-                panier = new List<Piece>();
+                panier = new List<Piece_Session>();
             }
             var piece = _context.Piece.Include(p => p.Photos).SingleOrDefault(p => p.Id_piece == id);
             piece.Quantite_stock = q;
-            panier.Add(piece);
+            Piece_Session ps = new Piece_Session
+            {
+                Id_piece = piece.Id_piece,
+                Nom_piece = piece.Nom_piece,
+                Type_name = piece.Type_name,
+                Id_Vendeur = piece.Id_Vendeur,
+                Quantite_stock = piece.Quantite_stock,
+                is_valide = piece.is_valide,
+                prix = piece.prix,
+                Photos = piece.Photos,
+                prixtotal = 0
+            };
+            ps.prixtotal = piece.prix * q;
+            panier.Add(ps);
             foreach (var p in panier)
-                Console.WriteLine(p.Nom_piece);
+                Console.WriteLine(p.prixtotal);
 
             HttpContext.Session.Set("panier", panier);
 

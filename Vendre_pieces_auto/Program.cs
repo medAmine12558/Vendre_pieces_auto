@@ -4,6 +4,7 @@ using Auth0.AspNetCore.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Vendre_pieces_auto.Models.Tabels;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Vendre_pieces_auto.Service;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,7 +23,9 @@ builder.Services
         options.ResponseType = "code";
         options.Scope = "openid profile email picture";
        
-    }); 
+    });
+builder.Services.AddScoped<IAccessTocken, AccessToken>();
+
 
 builder.Services.AddControllersWithViews();
 
