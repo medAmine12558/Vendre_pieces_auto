@@ -159,7 +159,7 @@
         
     @if (User.Identity.IsAuthenticated)//pour savoir est ce que l'utilisateur est connecter ou non "User.Identity.IsAuthenticated" return true si l'utilisateur est connecter et flase si non
     {
-            <span onclick="openNav()"><img class="profile" src="~/Images/Logo.png" alt="profile"></span>
+        <span onclick="openNav()"><img class="profile" src="@Model.pictureUrl" alt="profile"></span>
            
             //afficher l'icone de profile sauf pour un utlisateur connecter
 
@@ -193,7 +193,7 @@
         <!-- Portfolio Gallery Grid -->
         <div class="row">
 
-            @foreach(var p in Model)
+            @foreach (var p in Model.pieces)
             {
 
 
@@ -214,13 +214,13 @@
                 <form asp-controller="Piece" asp-route-id="@p.Id_piece" asp-action="Detaille" method="get">
                         <input style="margin-left:15px;cursor:pointer" type="submit" value="More details">
                 </form>
-                    <button type="button"  data-toggle="modal" data-target="#exampleModal" class="ajouter-panier" style="margin-left:15px;cursor:pointer;margin-top:5px" data-url="/panier/ajouter_panier" data-id="@p.Id_piece">
+                    <button type="button"  data-toggle="modal" data-target="#exampleModal_@p.Id_piece" class="ajouter-panier" style="margin-left:15px;cursor:pointer;margin-top:5px" data-url="/panier/ajouter_panier" data-id="@p.Id_piece">
                         Ajouter au panier
-                </button>
+                    </button>
                    
 
                     <!-- Modal -->
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="exampleModal_@p.Id_piece" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -252,7 +252,7 @@
         
         <div id="mySidenav" class="sidenav">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-            <a href="#">Profile</a>
+            <a href="/User_Interface/PageProfile">Profile</a>
             <a href="/panier/page_panier">Panier</a>
             <a href="#">Historique d'achats</a>
             <a href="#">Messages</a>

@@ -105,10 +105,12 @@
                         </div>
                     </div>
                     <div class="float-right">
-                        <button id="backToShoppingButton" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Back to shopping</button>
+                        <form style="display:inline-block" asp-action="InterfaceUser" asp-controller="User_Interface" method="get">
+                            <input type="submit" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" value="Back to shopping">
+                        </form>
                         <!--<button id="facture" type="button" class="btn btn-lg btn-primary mt-2">Terminer la commande</button>-->
                         <!-- Button trigger modal -->
-                        <button id="commande" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        <button id="commande" data-url="/Commande/ajouter_comm" type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                             Terminer la commande
                         </button>
 
@@ -124,8 +126,9 @@
                                         ...
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                        <button  type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        
+                                        <button id="facture" type="button" class="btn btn-primary">Afficher la facture</button>
                                     </div>
                                 </div>
                             </div>
@@ -143,39 +146,29 @@
             window.location.href = '@Url.Action("InterfaceUser", "User_Interface")';
         };
         document.getElementById('facture').onclick = function () {
-            window.location.href = '@Url.Action("send_Email", "Email")'
+            var id = this.getAttribute('data-id');
+            window.location.href = '@Url.Action("Afficher_facture", "Commande")';
         }
     </script>
 
+   
+
+
     <script>
         $(document).ready(function () {
-            $('.commande').click(function () {
+            $('#commande').click(function () {
                 var pieceId = $(this).data('id');
                 var url = $(this).data('url');
                 $.ajax({
                     url: url,
-                    type: 'POST',
-                    data: { id: pieceId },
-                    success: function (response) {
-                        if (response.success) {
-                            alert('Pièce est supprimer de votre panier!');
-                            location.reload();
-                        } else if (response.redirectUrl) {
-                            window.location.href = response.redirectUrl;
-                        } else {
-                            alert('Erreur lors du suppresion du piece.');
-                        }
-                    },
+                    type: 'GET',
                     error: function () {
                         alert('Erreur de communication avec le serveur.');
                     }
                 });
             });
         });
-
     </script>
-
-
     <script>
         $(document).ready(function () {
             $('.remove').click(function () {

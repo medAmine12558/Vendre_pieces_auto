@@ -12,8 +12,8 @@ using Vendre_pieces_auto.Data;
 namespace Vendre_pieces_auto.Migrations
 {
     [DbContext(typeof(Context))]
-    [Migration("20240513225027_bbbb")]
-    partial class bbbb
+    [Migration("20240619225600_ajouter_table_favorie_et_modifier_table_commander")]
+    partial class ajouter_table_favorie_et_modifier_table_commander
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -37,19 +37,43 @@ namespace Vendre_pieces_auto.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Id_Piece")
-                        .HasColumnType("int");
-
                     b.Property<string>("Id_Vendeur")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Qantite")
+                    b.HasKey("Id");
+
+                    b.ToTable("Commande");
+                });
+
+            modelBuilder.Entity("Vendre_pieces_auto.Models.Tabels.Commander", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Commande_id")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("PieceId_piece")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Piece_id")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("quantite")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Commande");
+                    b.HasIndex("Commande_id");
+
+                    b.HasIndex("PieceId_piece");
+
+                    b.ToTable("Commander");
                 });
 
             modelBuilder.Entity("Vendre_pieces_auto.Models.Tabels.Controlleur", b =>
@@ -64,24 +88,26 @@ namespace Vendre_pieces_auto.Migrations
 
             modelBuilder.Entity("Vendre_pieces_auto.Models.Tabels.Facture", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                        .HasColumnType("int");
 
-                    b.Property<string>("AcheteurId")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Id_Acheteur")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Id_Commande")
+                    b.Property<int>("Id_Comm")
                         .HasColumnType("int");
 
-                    b.Property<string>("VendeurId")
+                    b.Property<string>("Id_Vendeur")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Id_Commande");
+                    b.HasIndex("Id_Comm");
 
                     b.ToTable("Facture");
                 });
@@ -129,23 +155,37 @@ namespace Vendre_pieces_auto.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("image")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("is_valide")
                         .HasColumnType("bit");
+
+                    b.Property<float>("prix")
+                        .HasColumnType("real");
 
                     b.HasKey("Id_piece");
 
                     b.ToTable("Piece");
                 });
 
+            modelBuilder.Entity("Vendre_pieces_auto.Models.Tabels.Commander", b =>
+                {
+                    b.HasOne("Vendre_pieces_auto.Models.Tabels.Commande", "Commande")
+                        .WithMany("Commanders")
+                        .HasForeignKey("Commande_id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Vendre_pieces_auto.Models.Tabels.Piece", null)
+                        .WithMany("Commanders")
+                        .HasForeignKey("PieceId_piece");
+
+                    b.Navigation("Commande");
+                });
+
             modelBuilder.Entity("Vendre_pieces_auto.Models.Tabels.Facture", b =>
                 {
                     b.HasOne("Vendre_pieces_auto.Models.Tabels.Commande", "Commande")
                         .WithMany()
-                        .HasForeignKey("Id_Commande")
+                        .HasForeignKey("Id_Comm")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -155,12 +195,24 @@ namespace Vendre_pieces_auto.Migrations
             modelBuilder.Entity("Vendre_pieces_auto.Models.Tabels.Photos", b =>
                 {
                     b.HasOne("Vendre_pieces_auto.Models.Tabels.Piece", "Piece")
-                        .WithMany()
+                        .WithMany("Photos")
                         .HasForeignKey("id_Piece")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Piece");
+                });
+
+            modelBuilder.Entity("Vendre_pieces_auto.Models.Tabels.Commande", b =>
+                {
+                    b.Navigation("Commanders");
+                });
+
+            modelBuilder.Entity("Vendre_pieces_auto.Models.Tabels.Piece", b =>
+                {
+                    b.Navigation("Commanders");
+
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }

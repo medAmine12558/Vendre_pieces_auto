@@ -20,7 +20,8 @@ builder.Services
         options.ClientId = builder.Configuration["Auth0:ClientId"];
         options.ClientSecret = builder.Configuration["Auth0:ClientSecret"];
         options.ResponseType = "code";
-        options.Scope = "openid profile email";
+        options.Scope = "openid profile email picture";
+       
     }); 
 
 builder.Services.AddControllersWithViews();

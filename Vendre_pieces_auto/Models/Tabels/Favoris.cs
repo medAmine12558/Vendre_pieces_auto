@@ -3,15 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Vendre_pieces_auto.Models.Tabels
 {
-    public class Commande
+    public class Favoris
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        
-        public string Id_Vendeur { get; set; }
-        public string Id_Acheteur { get; set; }
-       public ICollection<Commander> Commanders { get; set; }
-
+        [ForeignKey("id_piece")]
+        public Piece piece { get; set; }
     }
 }
