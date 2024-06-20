@@ -102,10 +102,11 @@ namespace Vendre_pieces_auto.Controllers
         [HttpPost]
         public IActionResult remove_piece(int id)
         {
-            List<Piece> panier = HttpContext.Session.Get<List<Piece>>("panier");
+            List<Piece_Session> panier = HttpContext.Session.Get<List<Piece_Session>>("panier");
             if (panier != null)
             {
-                Piece p = panier.FirstOrDefault(i => i.Id_piece == id);
+
+                Piece_Session p = panier.FirstOrDefault(i => i.Id_piece == id);
                 if (p != null)
                 {
                     panier.Remove(p);
