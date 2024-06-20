@@ -14,10 +14,9 @@ namespace Vendre_pieces_auto.Models.Tabels
         [ForeignKey("Commande_id")]
         public Commande Commande { get; set; }
 
-        public int Piece_id { get; set; } // Clé étrangère pour Piece
-        [ForeignKey("Piece_id")]
-        public Piece Piece { get; set; }
+        public List<int> Piece_id { get; set; } 
+       
 
-        public int quantite { get; set; }
+        public List<int> quantite { get; set; }
     }
 }

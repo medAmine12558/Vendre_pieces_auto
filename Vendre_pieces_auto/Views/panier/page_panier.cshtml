@@ -127,8 +127,9 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button  type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        
-                                        <button id="facture" type="button" class="btn btn-primary">Afficher la facture</button>
+                                        <form style="display:inline-block" asp-action="Afficher_facture" asp-controller="Commande" method="get">
+                                            <input type="submit" class="btn btn-primary" value="Afficher la facture">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -146,7 +147,7 @@
             window.location.href = '@Url.Action("InterfaceUser", "User_Interface")';
         };
         document.getElementById('facture').onclick = function () {
-            var id = this.getAttribute('data-id');
+           
             window.location.href = '@Url.Action("Afficher_facture", "Commande")';
         }
     </script>
