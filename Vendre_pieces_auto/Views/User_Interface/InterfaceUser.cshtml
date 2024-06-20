@@ -224,7 +224,7 @@
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <form data-id="@p.Id_piece" data-url="/panier/ajouter_panier" method="get">
+                                    <form class="ajouter_pa" data-id="@p.Id_piece" data-url="/panier/ajouter_panier" method="get">
                                     <label>Quantite : </label>
                                     <input type="number" name="Quantite" />
                                     <input type="submit" value="confirmer" />
@@ -275,7 +275,7 @@
 
     <script>
         $(document).ready(function () {
-            $('form').on('submit',function (e) {
+            $('.ajouter_pa').on('submit', function (e) {
                 e.preventDefault();
                 var pieceId = $(this).data('id');
                 var url = $(this).data('url');

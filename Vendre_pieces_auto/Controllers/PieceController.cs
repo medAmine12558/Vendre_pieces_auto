@@ -60,7 +60,8 @@ namespace Vendre_pieces_auto.Controllers
                             Console.WriteLine(p.image);//afficher les urls des image
                         }
                     }
-                    return View(pieceWithPhotos);
+                    var sug = _context.Piece.Include(p => p.Photos).Where(p => p.Type_name.Equals(pieceWithPhotos.Type_name));
+                    return View(new { pieceWithPhotos = pieceWithPhotos , sug=sug});
                 }
 
 

@@ -100,15 +100,17 @@ namespace Vendre_pieces_auto.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult remove_piece(int id)
+        public IActionResult remove_piece(int id,int quantite)
         {
+            Console.WriteLine("la quantite envoyer est : "+quantite);
             List<Piece_Session> panier = HttpContext.Session.Get<List<Piece_Session>>("panier");
             if (panier != null)
             {
 
-                Piece_Session p = panier.FirstOrDefault(i => i.Id_piece == id);
+                Piece_Session p = panier.FirstOrDefault(i => i.Id_piece == id && i.Quantite_stock == quantite);
                 if (p != null)
                 {
+                    Console.WriteLine(p.Quantite_stock);
                     panier.Remove(p);
                     HttpContext.Session.Set("panier", panier);
                     return Json(new { success = true });

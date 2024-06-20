@@ -4,48 +4,451 @@
 @{
     Layout = "~/Views/navbar/_Layout.cshtml";
 }
-!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="~/css/Detaille.css">
-    <title>Document</title>
-</head>
-<body>
-<!-- Slideshow container -->
-<div style="margin-top:150px;" class="slideshow-container">
-
-  <!-- Full-width images with number and caption text -->
-        @foreach (var p in Model.Photos)
-        {
-           
-            <div class="mySlides fade">
-                <img src=@Url.Content("~/Images/" + p.image.Substring(15)) style="width:100%" alt="Images">
-            </div>
+<style>
+    .text-bold {
+            font-weight: 800;
         }
-  <!--<div class="mySlides fade">
-    <div class="numbertext">1 / 3</div>
-    <img src="img1.jpg" style="width:100%">
-    <div class="text">Caption Text</div>
-  </div>
 
-  <div class="mySlides fade">
-    <div class="numbertext">2 / 3</div>
-    <img src="img2.jpg" style="width:100%">
-    <div class="text">Caption Two</div>
-  </div>
+        text-color {
+            color: #0093c4;
+        }
 
-  <div class="mySlides fade">
-    <div class="numbertext">3 / 3</div>
-    <img src="img3.jpg" style="width:100%">
-    <div class="text">Caption Three</div>
-        </div>-->
-        <!-- Next and previous buttons -->
-  <a style="background-color:black;" class="prev" onclick="plusSlides(-1)">&#10094;</a>
-  <a style="background-color:black;" class="next" onclick="plusSlides(1)">&#10095;</a>
+        /* Main image - left */
+        .main-img img {
+            width: 100%;
+        }
+
+        /* Preview images */
+        .previews img {
+            width: 100%;
+            height: 140px;
+        }
+
+        .main-description .category {
+            text-transform: uppercase;
+            color: #0093c4;
+        }
+
+        .main-description .product-title {
+            font-size: 2.5rem;
+        }
+
+        .old-price-discount {
+            font-weight: 600;
+        }
+
+        .new-price {
+            font-size: 2rem;
+        }
+
+        .details-title {
+            text-transform: uppercase;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: #757575;
+        }
+
+        .buttons .block {
+            margin-right: 5px;
+        }
+
+        .quantity input {
+            border-radius: 0;
+            height: 40px;
+
+        }
+
+
+        .custom-btn {
+            text-transform: capitalize;
+            background-color: #0093c4;
+            color: white;
+            width: 150px;
+            height: 40px;
+            border-radius: 0;
+        }
+
+        .custom-btn:hover {
+            background-color: #0093c4 !important;
+            font-size: 18px;
+            color: white !important;
+        }
+
+        .similar-product img {
+            height: 400px;
+        }
+
+        .similar-product {
+            text-align: left;
+        }
+
+        .similar-product .title {
+            margin: 17px 0px 4px 0px;
+        }
+
+        .similar-product .price {
+            font-weight: bold;
+        }
+
+        .questions .icon i {
+            font-size: 2rem;
+        }
+
+        .questions-icon {
+            font-size: 2rem;
+            color: #0093c4;
+        }
+
+
+        
+       
+
+        }
+</style>
+<div class="container my-5">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="main-img">
+                @foreach (var p in Model.pieceWithPhotos.Photos)
+                {
+                    <a href="@Url.Content("~/Images/" + p.image.Substring(15))">
+
+                    <img style="height:500px" class="img-fluid" src="@Url.Content("~/Images/" + p.image.Substring(15))" alt="ProductS">
+                    </a>
+                    break;
+
+                }
+                <div class="row my-3 previews">
+                    @foreach (var p in Model.pieceWithPhotos.Photos)
+                    {
+                        <div class="col-md-3">
+                            <a href="@Url.Content("~/Images/" + p.image.Substring(15))">
+                            <img class="w-100" src="@Url.Content("~/Images/" + p.image.Substring(15))" alt="Sale">
+                            </a>
+                        </div>
+                    }
+                    
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="main-description px-2">
+                <div class="category text-bold">
+                    Category: @Model.pieceWithPhotos.Type_name
+                </div>
+                <div class="product-title text-bold my-3">
+                    @Model.pieceWithPhotos.Nom_piece
+                </div>
+
+
+                <div class="price-area my-4">
+                    
+                    <p class="new-price text-bold mb-1">@Model.pieceWithPhotos.prix DHS <span class="old-price-discount text-danger">(20% off)</span></p>
+                    <p class="text-secondary mb-1">(Additional tax may apply on checkout)</p>
+
+                </div>
+
+                <form id="ajouter_panier" data-id="@Model.pieceWithPhotos.Id_piece" data-url="/panier/ajouter_panier" method="post">
+                    <label> Quantite : </label>
+                    <input type="number" name="Quantite" />
+                    <br />
+                    <input type="submit" name="name" value="Ajouter au panier" />
+                    <br />
+                    <br />
+                </form>
+               
+
+
+
+
+            </div>
+
+            <div class="product-details my-4">
+                <p class="details-title text-color mb-1">Product Details</p>
+                <p class="description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Placeat excepturi odio recusandae aliquid ad impedit autem commodi earum voluptatem laboriosam? </p>
+            </div>
+
+            <div class="row questions bg-light p-3">
+                <div class="col-md-1 icon">
+                    <i class="fa-brands fa-rocketchat questions-icon"></i>
+                </div>
+                <div class="col-md-11 text">
+                    Have a question about our products at E-Store? Feel free to contact our representatives via live chat or email.
+                </div>
+            </div>
+
+            <div class="delivery my-4">
+                <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-truck"></i></span> <b>Delivery done in 3 days from date of purchase</b> </p>
+                <p class="text-secondary">Order now to get this product delivery</p>
+            </div>
+            <div class="delivery-options my-4">
+                <p class="font-weight-bold mb-0"><span><i class="fa-solid fa-filter"></i></span> <b>Delivery options</b> </p>
+                <p class="text-secondary">View delivery options here</p>
+            </div>
+
+
+        </div>
+    </div>
 </div>
-<br>
-    <script src="~/js/Detaille.js"></script>
-</body>
-</html>
+
+
+
+<div class="container similar-products my-4">
+    <hr>
+    <p class="display-5">Similar Products</p>
+
+    <div class="row">
+        @foreach (var p in Model.sug){
+           
+                <div class="col-md-3">
+                    <div class="similar-product">
+                    @foreach (var ph in p.Photos)
+                    {
+                    <img style="width:200px; height:300px" class="w-100" src="@Url.Content("~/Images/" + ph.image.Substring(15))" alt="Preview">
+                    break;
+                    }
+                    <a href="/Piece/Detaille/?id=@p.Id_piece"><p class="title">@p.Nom_piece</p></a>
+                <p class="price">@p.prix DHS</p>
+            </div>
+        </div>
+            
+        }
+       
+    </div>
+</div>
+
+    </div>
+<script>
+    $(document).ready(function () {
+        $('#ajouter_panier').on('submit', function (e) {
+            e.preventDefault();
+            var pieceId = $(this).data('id');
+            var url = $(this).data('url');
+            var quantite = $(this).find("input[name='Quantite']").val();
+            $.ajax({
+                url: url,
+                type: 'GET',
+                data: {
+                    id: pieceId,
+                    q: quantite
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert('Pièce ajoutée au panier avec succès!');
+                    } else if (response.redirectUrl) {
+                        window.location.href = response.redirectUrl;
+                    } else {
+                        alert('Erreur lors de l\'ajout au panier.');
+                    }
+                },
+                error: function () {
+                    alert('Erreur de communication avec le serveur.');
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
+<section class="py-5">
+    <div class="container">
+        <div class="row gx-5">
+            <aside class="col-lg-6">
+                <div class="border rounded-4 mb-3 d-flex justify-content-center">
+
+                    @foreach (var p in Model.pieceWithPhotos.Photos)
+                        {
+                            <a  data-fslightbox="mygalley" class="rounded-4" target="_blank" data-type="image" href="@Url.Content("~/Images/" + p.image.Substring(15))">
+                                <img style="max-width: 100%; max-height: 450px; margin: auto;" class="rounded-4 fit" src="@Url.Content("~/Images/" + p.image.Substring(15))" />
+                            </a>
+                            break;
+                        }
+                    
+                    
+                </div>
+                <div class="d-flex justify-content-center mb-3">
+                    @foreach (var p in Model.pieceWithPhotos.Photos)
+                    {
+                        <a data-fslightbox="mygalley" class="border mx-1 rounded-2" target="_blank" data-type="image" href="@Url.Content("~/Images/" + p.image.Substring(15))">
+                            <img width="60" height="60" class="rounded-2" src="@Url.Content("~/Images/" + p.image.Substring(15))" />
+                        </a>
+                    }
+                </div>
+               
+            </aside>
+            <main class="col-lg-6">
+                <div class="ps-lg-3">
+                      
+                          <h4 class="title text-dark">
+                        @Model.pieceWithPhotos.Nom_piece
+                    
+                         </h4>
+                        <div class="d-flex flex-row my-3">
+                        <div class="text-warning mb-1 me-2">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span class="ms-1">
+                                4.5
+                            </span>
+                        </div>
+                        <span class="text-muted"><i class="fas fa-shopping-basket fa-sm mx-1"></i>@Model.pieceWithPhotos.Quantite_stock orders</span>
+                        <span class="text-success ms-2">In stock</span>
+                    </div>
+
+                    <div class="mb-3">
+                        <span class="h5">@Model.pieceWithPhotos.prix DHS</span>
+                        <span class="text-muted">/per box</span>
+                    </div>
+
+                    <form id="ajouter_panier" method="post">
+                    <label>Quantite : </label>
+                        <input type="number" name="quantite" placeholder="Quantite" />
+                        <br />
+                        <input type="submit" class="btn btn-primary" name="name" value="Add to cart" />
+                    </form>
+
+                    
+
+                    
+                      
+                        
+                    </div>
+                    
+                    <a href="#" class="btn btn-light border border-secondary py-2 icon-hover px-3"> <i class="me-1 fa fa-heart fa-lg"></i> Save </a>
+                </div>
+            </main>
+        </div>
+    </div>
+</section>
+
+
+<section class="bg-light border-top py-4">
+    <div class="container">
+        <div class="row gx-4">
+            <div class="col-lg-8 mb-4">
+                <div class="border rounded-2 px-3 py-2 bg-white">
+                   
+                    
+                    <div class="tab-content" id="ex1-content">
+                        <div class="tab-pane fade show active" id="ex1-pills-1" role="tabpanel" aria-labelledby="ex1-tab-1">
+                            <p>
+                                With supporting text below as a natural lead-in to additional content. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                                enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                                pariatur.
+                            </p>
+                            <div class="row mb-2">
+                                <div class="col-12 col-md-6">
+                                    <ul class="list-unstyled mb-0">
+                                        <li><i class="fas fa-check text-success me-2"></i>Some great feature name here</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Lorem ipsum dolor sit amet, consectetur</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Duis aute irure dolor in reprehenderit</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Optical heart sensor</li>
+                                    </ul>
+                                </div>
+                                <div class="col-12 col-md-6 mb-0">
+                                    <ul class="list-unstyled">
+                                        <li><i class="fas fa-check text-success me-2"></i>Easy fast and ver good</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Some great feature name here</li>
+                                        <li><i class="fas fa-check text-success me-2"></i>Modern style and design</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <table class="table border mt-3 mb-2">
+                                <tr>
+                                    <th class="py-2">Display:</th>
+                                    <td class="py-2">13.3-inch LED-backlit display with IPS</td>
+                                </tr>
+                                <tr>
+                                    <th class="py-2">Processor capacity:</th>
+                                    <td class="py-2">2.3GHz dual-core Intel Core i5</td>
+                                </tr>
+                                <tr>
+                                    <th class="py-2">Camera quality:</th>
+                                    <td class="py-2">720p FaceTime HD camera</td>
+                                </tr>
+                                <tr>
+                                    <th class="py-2">Memory</th>
+                                    <td class="py-2">8 GB RAM or 16 GB RAM</td>
+                                </tr>
+                                <tr>
+                                    <th class="py-2">Graphics</th>
+                                    <td class="py-2">Intel Iris Plus Graphics 640</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="tab-pane fade mb-2" id="ex1-pills-2" role="tabpanel" aria-labelledby="ex1-tab-2">
+                            Tab content or sample information now <br />
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                            officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
+                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                        </div>
+                        <div class="tab-pane fade mb-2" id="ex1-pills-3" role="tabpanel" aria-labelledby="ex1-tab-3">
+                            Another tab content or sample information now <br />
+                            Dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                            commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                            mollit anim id est laborum.
+                        </div>
+                        <div class="tab-pane fade mb-2" id="ex1-pills-4" role="tabpanel" aria-labelledby="ex1-tab-4">
+                            Some other tab content or sample information now <br />
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                            aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                            officia deserunt mollit anim id est laborum.
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="px-0 border rounded-2 shadow-0">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Similar items</h5>
+                            <div style="display:inline-block" class="d-flex mb-3">
+                            @foreach(var p in Model.sug)
+                            {
+                                    @foreach (var ph in p.Photos)
+                                    {
+                                        <a href="#" class="me-3">
+                                            <img src="@Url.Content("~/Images/" + ph.image.Substring(15))" style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" />
+                                        </a>
+                                        break;
+                                    }
+                            
+                            
+                                
+                                <div class="info">
+                                    <a href="/Piece/Detaille/?id=@p.Id_piece" class="nav-link mb-1">
+                                            @p.Nom_piece <br />
+                                        
+                                    </a>
+                                    <strong class="text-dark"> @p.prix DHS</strong>
+                                </div>
+                                }
+                            </div>-->
+
+                           

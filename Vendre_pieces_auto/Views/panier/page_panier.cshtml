@@ -84,7 +84,7 @@
                                         <td class="align-middle p-4">@p.Quantite_stock</td>
                                         <td class="text-right font-weight-semibold align-middle p-4">@p.prix DHS</td>
 
-                                        <td class="text-center align-middle px-0"><button class="remove" data-id="@p.Id_piece" data-url="/panier/remove_piece" data-original-title="Remove">×</button></td>
+                                        <td class="text-center align-middle px-0"><button class="remove" data-quan="@p.Quantite_stock" data-id="@p.Id_piece" data-url="/panier/remove_piece" data-original-title="Remove">×</button></td>
                                     </tr>
                                 }
                             </tbody>
@@ -174,11 +174,14 @@
         $(document).ready(function () {
             $('.remove').click(function () {
                 var pieceId = $(this).data('id');
+                var quan = $(this).data('quan');
                 var url = $(this).data('url');
                 $.ajax({
                     url: url,
                     type: 'POST',
-                    data: { id: pieceId },
+                    data: { id: pieceId ,
+                        quantite: quan
+                    },
                     success: function (response) {
                         if (response.success) {
                             alert('Pièce est supprimer de votre panier!');
