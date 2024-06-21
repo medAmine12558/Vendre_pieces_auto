@@ -8,6 +8,7 @@ namespace Vendre_pieces_auto.Models.Tabels
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        public string Id_client { get; set; }
         [ForeignKey("id_piece")]
         public Piece piece { get; set; }
     }

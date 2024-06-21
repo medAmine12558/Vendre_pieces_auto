@@ -163,6 +163,43 @@ namespace Vendre_pieces_auto.Controllers
                 return RedirectToAction("~/Views/Piece/Page_Confiramtion.cstml");
             }*/
         }
+
+        public IActionResult Ajouter_favoris(int id)
+        {
+            Favoris f=new Favoris
+            {
+                Id_client=HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
+                piece=_context.Piece.FirstOrDefault(x=>x.Id_piece==id)
+            };
+            _context.Favoris.Add(f);
+            _context.SaveChanges() ;
+            return Json( new { success = true});
+        }
+        public IActionResult Afficher_favoris()
+        {
+            string client = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var favoris_piece = _context.Favoris.Include(x=>x.piece).ThenInclude(p => p.Photos).Where(x => x.Id_client.Equals(client));
+            
+            
+            
+            return View(favoris_piece);
+        }
+        public IActionResult Supp_favoris(int id)
+        {
+            Favoris f = _context.Favoris.FirstOrDefault(x => x.Id== id);
+            if (f != null)
+            {
+                _context.Favoris.Remove(f);
+                _context.SaveChanges();
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false });
+            }
+            
+        }
+
     }
     }
 

@@ -184,12 +184,12 @@
                     },
                     success: function (response) {
                         if (response.success) {
-                            alert('Pièce est supprimer de votre panier!');
+                            alert('Pièce est ajoute a votre liste des favoris!');
                             location.reload();
                         } else if (response.redirectUrl) {
                             window.location.href = response.redirectUrl;
                         } else {
-                            alert('Erreur lors du suppresion du piece.');
+                            alert('Erreur.');
                         }
                     },
                     error: function () {
