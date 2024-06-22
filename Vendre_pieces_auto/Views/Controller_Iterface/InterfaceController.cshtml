@@ -1,0 +1,29 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/navbar/_Layout.cshtml";
+}
+<table id="example" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th>Piece</th>
+            <th>Categorie</th>
+            <th>Id vendeur</th>
+            <th>prix</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model)
+        {
+            <tr>
+                <td>@p.Nom_piece</td>
+                <td>@p.Type_name</td>
+                <td>@p.Id_Vendeur</td>
+                <td>@p.prix</td>
+                <td><a asp-controller="Piece" asp-action="Verifier_Piece" asp-route-id="@p.Id_piece">Verifier</a></td>
+            </tr>
+        }
+       
+       </tbody>
+</table>

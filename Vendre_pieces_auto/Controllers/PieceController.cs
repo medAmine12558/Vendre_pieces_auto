@@ -213,6 +213,13 @@ namespace Vendre_pieces_auto.Controllers
             }
             return View(his); // Remplacez null par une action appropriée (par exemple, Ok())
         }
+        public IActionResult Verifier_Piece(int id)
+        {
+            var piece = _context.Piece.SingleOrDefault(x => x.Id_piece == id);
+            piece.is_valide = true;
+            _context.SaveChanges();
+            return null;
+        }
 
 
     }

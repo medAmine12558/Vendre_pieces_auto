@@ -1,6 +1,7 @@
 ﻿using Auth0.ManagementApi;
 using Azure.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
@@ -21,11 +22,34 @@ namespace Vendre_pieces_auto.Controllers
             _context = context; // Injectez le contexte dans le constructeur
             _configuration = configuration;
         }
+        public IActionResult Checkpoint()
+        {
+            string userid=HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var cont=_context.Controleur.FirstOrDefault(x => x.Id.Equals(userid));
+            if (cont != null)
+            {
+                var piece = _context.Piece.Where(x => x.is_valide==false);
+                    
+                return View("~/Views/Controller_Iterface/InterfaceController.cshtml", piece);
+            }
+            else
+            {
+                return RedirectToAction("InterfaceUser", "User_Interface");
+            }
+        }
 
         public IActionResult InterfaceUser()
         {
             //var pieces=_context.Piece.ToList();
-            var pieces = _context.Piece.Include(p => p.Photos).ToList();
+            string userid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var cont = _context.Controleur.FirstOrDefault(x => x.Id.Equals(userid));
+            if (cont != null)
+            {
+                var piece = _context.Piece.Where(x => x.is_valide == false);
+
+                return View("~/Views/Controller_Iterface/InterfaceController.cshtml", piece);
+            }
+            var pieces = _context.Piece.Include(p => p.Photos).Where(x=>x.is_valide==true).ToList();
             String pictureUrl = null;
             if (User.Identity.IsAuthenticated)
             {
