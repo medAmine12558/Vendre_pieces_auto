@@ -34,4 +34,8 @@
     <PackageReference Include="UmbracoCms.Core" Version="8.18.14" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

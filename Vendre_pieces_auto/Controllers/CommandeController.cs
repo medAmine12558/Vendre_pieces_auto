@@ -27,41 +27,41 @@ namespace Vendre_pieces_auto.Controllers
         }
         public IActionResult ajouter_comm()
         {
-            List<int> pieces_id=new List<int>();
-            List<int> quatite=new List<int>();
+            ICollection<Piece> pieces_id =new List<Piece>();
+           
             Commande comm = null;
             List<Piece> panier = HttpContext.Session.Get<List<Piece>>("panier");
-            foreach(var p in panier)
+            
+            
+            comm = new Commande
             {
-                pieces_id.Add(p.Id_piece);
-                quatite.Add(p.Quantite_stock);
-            }
-            foreach (Piece piece in panier) {
-                comm = new Commande
-                {
-                    Id_Vendeur = piece.Id_Vendeur,
-                    Id_Acheteur = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value
-                };
-                _context.Commande.Add(comm);
-                _context.SaveChanges();
-               
-                var f = new Facture
-                {
-                    Id_Vendeur = piece.Id_Vendeur,
-                    Id_Acheteur = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
-                    Id_Comm = comm.Id
-                };
-                _context.Facture.Add(f);
-            }
-            var commander = new Commander
-            {
-                Commande_id = comm.Id,
-                Piece_id = pieces_id,
-
-                quantite = quatite
+                Id_Acheteur = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
+                
             };
-            _context.Commander.Add(commander);
+            _context.Commande.Add(comm);
             _context.SaveChanges();
+            foreach(Piece piece in panier)
+            {
+                var commander = new CommandePiece
+                {
+                    Commande_id = comm.Id,
+                    Piece_id=piece.Id_piece,
+                    quantite = piece.Quantite_stock
+                };
+              _context.CommandePiece.Add(commander);
+
+            }
+           
+
+            var f = new Facture
+            {
+                Id_Comm = comm.Id
+            };
+            _context.Facture.Add(f);
+            _context.SaveChanges();
+
+
+
             HttpContext.Session.Set<int>("Commande_id", comm.Id);
             Console.WriteLine("le id du comm est : "+HttpContext.Session.Get<int>("Commande_id"));
             return Json(new { success = true });

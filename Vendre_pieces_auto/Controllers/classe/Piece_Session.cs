@@ -13,6 +13,7 @@ namespace Vendre_pieces_auto.Controllers.classe
         public float prix { get; set; }
         public float prixtotal { get; set; }
         public virtual ICollection<Photos> Photos { get; set; }
+        public int Quantite_acheter;
         public Piece_Session()
         {
             is_valide = false;

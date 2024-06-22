@@ -16,7 +16,7 @@ namespace Vendre_pieces_auto.Models.Tabels
         public bool is_valide { get; set; }
         public float prix {  get; set; }
         public virtual ICollection<Photos> Photos { get; set; }
-        public ICollection<Commander> Commanders { get; set; }
+        public ICollection<CommandePiece> Commanders { get; set; }
         public Piece()
         {
             is_valide= false;  

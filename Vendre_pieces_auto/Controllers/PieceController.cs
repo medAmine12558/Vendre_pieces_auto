@@ -9,6 +9,7 @@ using System.Globalization;
 using Vendre_pieces_auto.Models.Views;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Vendre_pieces_auto.Controllers
 {
@@ -60,7 +61,8 @@ namespace Vendre_pieces_auto.Controllers
                             Console.WriteLine(p.image);//afficher les urls des image
                         }
                     }
-                    return View(pieceWithPhotos);
+                    var sug = _context.Piece.Include(p => p.Photos).Where(p => p.Type_name.Equals(pieceWithPhotos.Type_name));
+                    return View(new { pieceWithPhotos = pieceWithPhotos , sug=sug});
                 }
 
 
@@ -162,6 +164,57 @@ namespace Vendre_pieces_auto.Controllers
                 return RedirectToAction("~/Views/Piece/Page_Confiramtion.cstml");
             }*/
         }
+
+        public IActionResult Ajouter_favoris(int id)
+        {
+            Favoris f=new Favoris
+            {
+                Id_client=HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value,
+                piece=_context.Piece.FirstOrDefault(x=>x.Id_piece==id)
+            };
+            _context.Favoris.Add(f);
+            _context.SaveChanges() ;
+            return Json( new { success = true});
+        }
+        public IActionResult Afficher_favoris()
+        {
+            string client = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var favoris_piece = _context.Favoris.Include(x=>x.piece).ThenInclude(p => p.Photos).Where(x => x.Id_client.Equals(client));
+            
+            
+            
+            return View(favoris_piece);
+        }
+        public IActionResult Supp_favoris(int id)
+        {
+            Favoris f = _context.Favoris.FirstOrDefault(x => x.Id== id);
+            if (f != null)
+            {
+                _context.Favoris.Remove(f);
+                _context.SaveChanges();
+                return Json(new { success = true });
+            }
+            else
+            {
+                return Json(new { success = false });
+            }
+            
+        }
+        public IActionResult Historique()
+        {
+            string userid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var his=_context.Commande.Include(x => x.Commanders).ThenInclude(x => x.Pieces).Where(x =>x.Id_Acheteur.Equals(userid));
+            foreach(var item in his)
+            {
+                foreach(var item1 in item.Commanders)
+                {
+                    Console.WriteLine(item1.Pieces.Nom_piece);
+                }
+            }
+            return View(his); // Remplacez null par une action appropriée (par exemple, Ok())
+        }
+
+
     }
-    }
+}
 

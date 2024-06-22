@@ -1,0 +1,32 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    Layout = "~/Views/navbar/_Layout.cshtml";
+}
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th scope="col">Piece</th>
+            <th scope="col">Type</th>
+            <th scope="col">Prix</th>
+        </tr>
+    </thead>
+    <tbody class="table-group-divider">
+        @foreach(var i in Model)
+        {
+            @foreach (var i1 in i.Commanders)
+            {
+                <tr>
+
+                    <td>@i1.Pieces.Nom_piece</td>
+                    <td>@i1.Pieces.Type_name</td>
+                    <td>@i1.Pieces.prix DHS</td>
+                </tr>
+            }
+        }
+        
+       
+    </tbody>
+</table>
