@@ -26,14 +26,14 @@ namespace Vendre_pieces_auto.Controllers
                 panier = new List<Piece_Session>();
             }
             var piece = _context.Piece.Include(p => p.Photos).SingleOrDefault(p => p.Id_piece == id);
-            piece.Quantite_stock = q;
+
             Piece_Session ps = new Piece_Session
             {
                 Id_piece = piece.Id_piece,
                 Nom_piece = piece.Nom_piece,
                 Type_name = piece.Type_name,
                 Id_Vendeur = piece.Id_Vendeur,
-                Quantite_stock = piece.Quantite_stock,
+                Quantite_stock = q,
                 is_valide = piece.is_valide,
                 prix = piece.prix,
                 Photos = piece.Photos,

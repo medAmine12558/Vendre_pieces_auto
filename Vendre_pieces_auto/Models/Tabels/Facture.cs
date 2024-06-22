@@ -8,10 +8,8 @@ namespace Vendre_pieces_auto.Models.Tabels
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public string Id_Vendeur { get; set; }
-        public string Id_Acheteur { get; set; }
         public int Id_Comm { get; set; }
         [ForeignKey("Id_Comm")]
-        public Commande Commande { get; set; }
+        public Commande Commandee { get; set; }
     }
 }

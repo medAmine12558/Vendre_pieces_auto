@@ -9,6 +9,7 @@ using System.Globalization;
 using Vendre_pieces_auto.Models.Views;
 using static System.Net.Mime.MediaTypeNames;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Vendre_pieces_auto.Controllers
 {
@@ -199,7 +200,21 @@ namespace Vendre_pieces_auto.Controllers
             }
             
         }
+        public IActionResult Historique()
+        {
+            string userid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var his=_context.Commande.Include(x => x.Commanders).ThenInclude(x => x.Pieces).Where(x =>x.Id_Acheteur.Equals(userid));
+            foreach(var item in his)
+            {
+                foreach(var item1 in item.Commanders)
+                {
+                    Console.WriteLine(item1.Pieces.Nom_piece);
+                }
+            }
+            return View(his); // Remplacez null par une action appropriée (par exemple, Ok())
+        }
+
 
     }
-    }
+}
 
