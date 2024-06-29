@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using System.Security.Claims;
 using Vendre_pieces_auto.Data;
+using Vendre_pieces_auto.Models.DAO;
 using Vendre_pieces_auto.Models.Tabels;
 using Vendre_pieces_auto.Service;
 
@@ -16,7 +17,7 @@ namespace Vendre_pieces_auto.Controllers
     public class User_InterfaceController : Controller
     {
         private readonly Context _context; // Ajoutez une variable privée pour stocker le contexte
-        private readonly IAccessTocken _accessTocken; //fffffff
+        private readonly IAccessTocken _accessTocken; 
         private readonly IConfiguration _configuration;
         public User_InterfaceController(Context context, IAccessTocken accessToken, IConfiguration configuration)
         {
@@ -24,15 +25,29 @@ namespace Vendre_pieces_auto.Controllers
             _accessTocken = accessToken;
             _configuration = configuration;
         }
-        public IActionResult Checkpoint()
+        public async Task<IActionResult> Checkpoint()
         {
+            Dictionary<Piece, List<string>> NomCinPiece = new Dictionary<Piece, List<string>>();
             string userid=HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var cont=_context.Controleur.FirstOrDefault(x => x.Id.Equals(userid));
             if (cont != null)
             {
+                
                 var piece = _context.Piece.Where(x => x.is_valide==false);
+                foreach(var p in piece)
+                {
+                   
+                    var managementApiClient = new ManagementApiClient(await _accessTocken.GetManagementApiAccessToken(), new Uri($"https://{_configuration["Auth0:Domain"]}/api/v2/"));
+                    var user = await managementApiClient.Users.GetAsync(p.Id_Vendeur);
+                    string userFName = user.UserMetadata.first_name;
+                    string CIN=user.UserMetadata.CIN;
+                   NomCinPiece.Add(p,new List<string> { userFName, CIN });
                     
-                return View("~/Views/Controller_Iterface/InterfaceController.cshtml", piece);
+                    
+                }
+                
+                    
+                return View("~/Views/Controller_Iterface/InterfaceController.cshtml", NomCinPiece);
             }
             else
             {
@@ -40,16 +55,26 @@ namespace Vendre_pieces_auto.Controllers
             }
         }
 
-        public IActionResult InterfaceUser()
+        public async Task<IActionResult> InterfaceUser()
         {
             //var pieces=_context.Piece.ToList();
             string userid = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var cont = _context.Controleur.FirstOrDefault(x => x.Id.Equals(userid));
             if (cont != null)
             {
+                Dictionary<Piece,List<string>> PieceNomCin = new Dictionary<Piece,List<string>>();
                 var piece = _context.Piece.Where(x => x.is_valide == false);
+                foreach(var p in piece)
+                {
+                    List<string> NomCin = new List<string>();
+                    var managementApiClient = new ManagementApiClient(await _accessTocken.GetManagementApiAccessToken(), new Uri($"https://{_configuration["Auth0:Domain"]}/api/v2/"));
+                    var user = await managementApiClient.Users.GetAsync(p.Id_Vendeur);
+                    string userFName = user.UserMetadata.first_name;
+                    string CIN = user.UserMetadata.CIN;
+                    PieceNomCin.Add(p, new List<string> { userFName, CIN });
+                }
 
-                return View("~/Views/Controller_Iterface/InterfaceController.cshtml", piece);
+                return View("~/Views/Controller_Iterface/InterfaceController.cshtml", PieceNomCin);
             }
             var pieces = _context.Piece.Include(p => p.Photos).Where(x=>x.is_valide==true).ToList();
             String pictureUrl = null;

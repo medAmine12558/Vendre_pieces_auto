@@ -1,4 +1,5 @@
-﻿@*
+﻿
+@*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
@@ -10,18 +11,25 @@
             <th>Piece</th>
             <th>Categorie</th>
             <th>Id vendeur</th>
+            <th>Nom vendeur</th>
+            <th>CIN vendeur</th>
             <th>prix</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var p in Model)
+        @foreach (KeyValuePair<Vendre_pieces_auto.Models.Tabels.Piece,List<string>> p in Model)
         {
             <tr>
-                <td>@p.Nom_piece</td>
-                <td>@p.Type_name</td>
-                <td>@p.Id_Vendeur</td>
-                <td>@p.prix</td>
-                <td><a id="ve" data-id="@p.Id_piece" data-url="/Piece/Verifier_Piece" >Verifier</a></td>
+                <td>@p.Key.Nom_piece</td>
+                <td>@p.Key.Type_name</td>
+                <td>@p.Key.Id_Vendeur</td>
+                @foreach(var p1 in p.Value)
+                {
+                    <td>@p1</td>
+                }
+
+                <td>@p.Key.prix</td>
+                <td><a id="ve" data-id="@p.Key.Id_piece" data-url="/Piece/Verifier_Piece" >Verifier</a></td>
             </tr>
         }
        
