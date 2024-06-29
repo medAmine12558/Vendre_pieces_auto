@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Vendre_pieces_auto.Models.Tabels;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Vendre_pieces_auto.Service;
+using Microsoft.Extensions.Options;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ builder.Services.AddSession();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddDbContext<Context>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("connString")));
 

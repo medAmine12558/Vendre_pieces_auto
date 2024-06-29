@@ -9,17 +9,19 @@ using Newtonsoft.Json;
 using System.Security.Claims;
 using Vendre_pieces_auto.Data;
 using Vendre_pieces_auto.Models.Tabels;
+using Vendre_pieces_auto.Service;
 
 namespace Vendre_pieces_auto.Controllers
 {
     public class User_InterfaceController : Controller
     {
         private readonly Context _context; // Ajoutez une variable privée pour stocker le contexte
+        private readonly IAccessTocken _accessTocken; //fffffff
         private readonly IConfiguration _configuration;
-
-        public User_InterfaceController(Context context,IConfiguration configuration)
+        public User_InterfaceController(Context context, IAccessTocken accessToken, IConfiguration configuration)
         {
             _context = context; // Injectez le contexte dans le constructeur
+            _accessTocken = accessToken;
             _configuration = configuration;
         }
         public IActionResult Checkpoint()
@@ -89,7 +91,7 @@ namespace Vendre_pieces_auto.Controllers
             var email=HttpContext.User.FindFirst(ClaimTypes.Email)?.Value;
             var idUser= HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var picture = HttpContext.User.FindFirst("picture")?.Value;
-            var managementApiClient = new ManagementApiClient(await GetManagementApiAccessToken(), new Uri($"https://{_configuration["Auth0:Domain"]}/api/v2/"));
+            var managementApiClient = new ManagementApiClient(await _accessTocken.GetManagementApiAccessToken(), new Uri($"https://{_configuration["Auth0:Domain"]}/api/v2/"));
             var user = await managementApiClient.Users.GetAsync(idUser);
             var userFName = user.UserMetadata.first_name;
             var UserLName = user.UserMetadata.last_name;
@@ -99,7 +101,7 @@ namespace Vendre_pieces_auto.Controllers
             return View("~/Views/User_Interface/InterfaceProfile.cshtml",new {email=email,picture=picture, nom = userFName , prenom = UserLName , adresse= UserAdresse ,tele= UserTele });
 
         }
-        private async Task<string> GetManagementApiAccessToken()
+        /*private async Task<string> GetManagementApiAccessToken()
         {
             // Création d'un nouveau client HTTP pour envoyer la requête
             var client = new HttpClient();
@@ -136,7 +138,7 @@ namespace Vendre_pieces_auto.Controllers
             Console.WriteLine($"Erreur lors de la récupération du token d'accès : {errorContent}");
             // Lancement d'une exception avec le message d'erreur
             throw new ApplicationException("Unable to retrieve access token for management API.");
-        }
+        }*/
     }
     
 }

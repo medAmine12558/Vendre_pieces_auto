@@ -218,7 +218,7 @@ namespace Vendre_pieces_auto.Controllers
             var piece = _context.Piece.SingleOrDefault(x => x.Id_piece == id);
             piece.is_valide = true;
             _context.SaveChanges();
-            return null;
+            return Json(new { success = true });
         }
 
 
